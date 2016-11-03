@@ -1,53 +1,57 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View
+    AppRegistry,
+    Text,
+    TextInput,
+    View,
+    PickerIOS
 } from 'react-native';
 
-export default class InfluxAnnotator extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
-    );
-  }
+const PickerItemIOS = PickerIOS.Item;
+
+class AnnotationWriter extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            message: '',
+            tag: 'manual'
+        };
+    }
+
+    render() {
+        return (
+            <View style={{padding: 10}}>
+                <Text style={{padding: 10, fontSize: 42}}>
+                    Message
+                </Text>
+                <TextInput
+                    style={{height: 40}}
+                    placeholder="Type here to the message of the annotation!"
+                    onChangeText={(message) => this.setState({message})}
+                />
+                <Text style={{padding: 10, fontSize: 42}}>
+                    {this.state.message}
+                </Text>
+                <PickerIOS
+                    selectedValue={this.state.tag}
+                    onValueChange={(tag) => this.setState({tag})}>
+                    <PickerItemIOS
+                        key='manual'
+                        value='manual'
+                        label='manual'
+                    />
+                    <PickerItemIOS
+                        key='live-deploy'
+                        value='live-deploy'
+                        label='live-deploy'
+                    />
+                </PickerIOS>
+                <Text style={{padding: 10, fontSize: 42}}>
+                    {this.state.tag}
+                </Text>
+            </View>
+        );
+    }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
-
-AppRegistry.registerComponent('InfluxAnnotator', () => InfluxAnnotator);
+AppRegistry.registerComponent('InfluxAnnotator', () => AnnotationWriter);
