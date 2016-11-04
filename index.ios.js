@@ -32,7 +32,13 @@ class AnnotationWriter extends Component {
     };
 
     onPressButton = () => {
-        this.setState({result: 'annotations,' + this.state.tag + '=' + this.state.tag + ' text=' + this.state.message + ' ' + this.state.date.getTime() * 1000000});
+        fetch(
+            'http://192.168.3.155:8086/write?db=influx-annotator',
+            {
+                method: 'POST',
+                body: 'annotations,type=' + this.state.tag + ' message="' + this.state.message + '" ' + (this.state.date.getTime() * 1000000)
+            }
+        );
     };
 
     render() {
