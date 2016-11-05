@@ -4,7 +4,7 @@ import {
     Text
 } from 'react-native';
 
-class Annotations extends Component {
+class AnnotationsView extends Component {
     static defaultProps = {};
 
     constructor(props) {
@@ -23,4 +23,4 @@ class Annotations extends Component {
     }
 }
 
-module.exports = Annotations;
+module.exports = AnnotationsView;

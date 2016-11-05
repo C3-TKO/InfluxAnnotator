@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import {
     AppRegistry,
-    TabBarIOS
+    TabBarIOS,
 } from 'react-native';
 
-import AnnotationWriter from './annotation-writer.ios';
-import Sources from './sources.ios';
-import Annotations from './annotations.ios';
+import WriterView from './writer.ios.js';
+import DatabasesView from './databases.ios.js';
+import AnnotationsView from './annotations.ios.js';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-const TabBarItem = TabBarIOS.Item;
+//const TabBarItem = TabBarIOS.Item;
+const TabBarItem = Icon.TabBarItemIOS;
 
 class InfluxAnnotator extends Component {
     static defaultProps = {
@@ -26,34 +28,37 @@ class InfluxAnnotator extends Component {
         return (
             <TabBarIOS selectedTab={this.state.selectedTab}>
                 <TabBarItem
+                    title="Databases"
+                    iconName="ios-cloud-outline"
                     selected={this.state.selectedTab === 'sources'}
-                    systemIcon='favorites'
                     onPress={() => {
                         this.setState({
                             selectedTab: 'sources'
                         });
                     }}>
-                    <Sources/>
+                    <DatabasesView/>
                 </TabBarItem>
                 <TabBarItem
+                    title="Writer"
+                    iconName="ios-pricetag-outline"
                     selected={this.state.selectedTab === 'annotation-writer'}
-                    systemIcon='recents'
                     onPress={() => {
                         this.setState({
                             selectedTab: 'annotation-writer'
                         });
                     }}>
-                    <AnnotationWriter/>
+                    <WriterView/>
                 </TabBarItem>
                 <TabBarItem
+                    iconName="ios-paper-outline"
+                    title="Annotations"
                     selected={this.state.selectedTab === 'annotations'}
-                    systemIcon='search'
                     onPress={() => {
                         this.setState({
                             selectedTab: 'annotations'
                         });
                     }}>
-                    <Annotations/>
+                    <AnnotationsView/>
                 </TabBarItem>
             </TabBarIOS>
         );

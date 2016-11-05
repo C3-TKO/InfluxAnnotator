@@ -10,7 +10,7 @@ import {
 
 const PickerItemIOS = PickerIOS.Item;
 
-class AnnotationWriter extends Component {
+class WriterView extends Component {
     static defaultProps = {
         date: new Date(),
         tag: 'manual'
@@ -86,4 +86,4 @@ class AnnotationWriter extends Component {
     }
 }
 
-module.exports = AnnotationWriter;
+module.exports = WriterView;

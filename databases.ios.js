@@ -4,7 +4,7 @@ import {
     Text
 } from 'react-native';
 
-class Sources extends Component {
+class DatabasesView extends Component {
     static defaultProps = {};
 
     constructor(props) {
@@ -16,11 +16,11 @@ class Sources extends Component {
         return (
             <View style={{padding: 10}}>
                 <Text style={{padding: 10, fontSize: 20}}>
-                    Sources
+                    Databases
                 </Text>
             </View>
         );
     }
 }
 
-module.exports = Sources;
+module.exports = DatabasesView;
