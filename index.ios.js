@@ -30,6 +30,7 @@ class InfluxAnnotator extends Component {
                 <TabBarItem
                     title="Databases"
                     iconName="ios-cloud-outline"
+                    selectedIconName="ios-cloud"
                     selected={this.state.selectedTab === 'sources'}
                     onPress={() => {
                         this.setState({
@@ -41,6 +42,7 @@ class InfluxAnnotator extends Component {
                 <TabBarItem
                     title="Writer"
                     iconName="ios-pricetag-outline"
+                    selectedIconName="ios-pricetag"
                     selected={this.state.selectedTab === 'annotation-writer'}
                     onPress={() => {
                         this.setState({
@@ -51,6 +53,7 @@ class InfluxAnnotator extends Component {
                 </TabBarItem>
                 <TabBarItem
                     iconName="ios-paper-outline"
+                    selectedIconName="ios-paper"
                     title="Annotations"
                     selected={this.state.selectedTab === 'annotations'}
                     onPress={() => {
