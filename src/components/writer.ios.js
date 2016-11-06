@@ -47,7 +47,7 @@ class WriterView extends Component {
                 </Text>
                 <TextInput
                     style={{height: 20}}
-                    placeholder="Type here to the message of the annotation!"
+                    placeholder="Type here to write the message of the annotation!"
                     onChangeText={(message) => this.setState({message})}
                 />
                 <PickerIOS
