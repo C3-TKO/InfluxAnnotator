@@ -21,8 +21,7 @@ class WriterView extends Component {
         this.state = {
             message: '',
             tag: this.props.tag,
-            date: this.props.date,
-            result: ''
+            date: this.props.date
         };
     }
 
@@ -43,10 +42,6 @@ class WriterView extends Component {
     render() {
         return (
             <View style={{padding: 10}}>
-                <Text style={{padding: 10, fontSize: 20}}>
-                    {this.state.result}
-                </Text>
-
                 <Text style={{padding: 10, fontSize: 20}}>
                     Message
                 </Text>
