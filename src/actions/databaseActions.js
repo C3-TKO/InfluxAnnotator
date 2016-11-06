@@ -1,13 +1,21 @@
 import * as types from './actionTypes';
 
-export function increment() {
+export function addDatabase() {
     return {
-        type: types.INCREMENT
+        type: types.ADD_DATABASE
     };
 }
 
-export function decrement() {
+export function editDatabase(id) {
     return {
-        type: types.DECREMENT
+        type: types.EDIT_DATABASE,
+        id: id
+    };
+}
+
+export function deleteDatabase(id) {
+    return {
+        type: types.DELETE_DATABASE,
+        id: id
     };
 }

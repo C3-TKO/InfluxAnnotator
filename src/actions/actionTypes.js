@@ -1,2 +1,3 @@
-export const INCREMENT = 'INCREMENT';
-export const DECREMENT = 'DECREMENT';
+export const ADD_DATABASE = 'ADD_DATABASE';
+export const EDIT_DATABASE = 'EDIT_DATABASE';
+export const DELETE_DATABASE = 'DELETE_DATABASE';
