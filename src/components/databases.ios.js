@@ -8,7 +8,7 @@ import {
 
 class DatabasesView extends Component {
     static defaultProps = {
-        id: undefined,
+        index: undefined,
         url: undefined,
         alias: undefined,
         port: 8086,
@@ -21,7 +21,7 @@ class DatabasesView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: this.props.id,
+            index: this.props.index,
             url: this.props.url,
             alias: this.props.alias,
             port: this.props.port,
@@ -39,6 +39,23 @@ class DatabasesView extends Component {
                 method: 'GET'
             }
         );
+
+        const database = {
+            url: this.state.url,
+            alias: this.state.alias,
+            port: this.state.port,
+            name: this.state.name,
+            measurement: this.state.measurement,
+            username: this.state.username,
+            password: this.state.password
+        }
+
+        if( this.state.index ) {
+            this.props.editDatabase(this.state.index, database);
+        }
+        else {
+            this.props.addDatabase(database);
+        }
     };
 
     render() {

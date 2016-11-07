@@ -1,21 +1,23 @@
 import * as types from './actionTypes';
 
-export function addDatabase() {
+export function addDatabase(database) {
     return {
-        type: types.ADD_DATABASE
+        type: types.ADD_DATABASE,
+        database: database
     };
 }
 
-export function editDatabase(id) {
+export function editDatabase(index, database) {
     return {
         type: types.EDIT_DATABASE,
-        id: id
+        index: index,
+        database: database
     };
 }
 
-export function deleteDatabase(id) {
+export function deleteDatabase(index) {
     return {
         type: types.DELETE_DATABASE,
-        id: id
+        index: index
     };
 }
