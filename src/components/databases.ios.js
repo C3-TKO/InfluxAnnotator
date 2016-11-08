@@ -3,8 +3,11 @@ import {
     Text,
     TextInput,
     View,
+    PickerIOS,
     TouchableHighlight
 } from 'react-native';
+
+const PickerItemIOS = PickerIOS.Item;
 
 class DatabasesView extends Component {
     static defaultProps = {
@@ -58,12 +61,55 @@ class DatabasesView extends Component {
         }
     };
 
+    renderDatabasePicker() {
+        if ( this.props.databases.length > 0 ) {
+            return (
+                <PickerIOS
+                    selectedValue={0}
+                    onValueChange={(index) => this.setState({index})}>
+                    <PickerItemIOS
+                        key='index'
+                        value={0}
+                        label='manual'
+                    />
+                </PickerIOS>
+            )
+        }
+
+    }
+
     render() {
+        let databasePicker = null;
+        if ( this.props.databases.length > 0 ) {
+            databasePicker = (
+                <PickerIOS
+                    selectedValue={0}
+                    onValueChange={(index) => this.setState({index})}>
+                    <PickerItemIOS
+                        key='index'
+                        value={0}
+                        label='manual'
+                    />
+                    <PickerItemIOS
+                        key='index'
+                        value={1}
+                        label='test'
+                    />
+                    <PickerItemIOS
+                        key='index'
+                        value={2}
+                        label='test2'
+                    />
+                </PickerIOS>
+            );
+        }
+
         return (
             <View style={{padding: 10}}>
                 <Text style={{padding: 10, fontSize: 20}}>
                     Databases
                 </Text>
+                {databasePicker}
                 <TextInput
                     style={{height: 20}}
                     placeholder="Alias for the database"
