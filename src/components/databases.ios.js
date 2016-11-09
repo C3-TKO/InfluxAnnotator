@@ -61,45 +61,20 @@ class DatabasesView extends Component {
         }
     };
 
-    renderDatabasePicker() {
-        if ( this.props.databases.length > 0 ) {
-            return (
-                <PickerIOS
-                    selectedValue={0}
-                    onValueChange={(index) => this.setState({index})}>
-                    <PickerItemIOS
-                        key='index'
-                        value={0}
-                        label='manual'
-                    />
-                </PickerIOS>
-            )
-        }
-
-    }
-
     render() {
         let databasePicker = null;
         if ( this.props.databases.length > 0 ) {
             databasePicker = (
                 <PickerIOS
-                    selectedValue={0}
+                    selectedValue={this.state.index}
                     onValueChange={(index) => this.setState({index})}>
-                    <PickerItemIOS
-                        key='index'
-                        value={0}
-                        label='manual'
-                    />
-                    <PickerItemIOS
-                        key='index'
-                        value={1}
-                        label='test'
-                    />
-                    <PickerItemIOS
-                        key='index'
-                        value={2}
-                        label='test2'
-                    />
+                    {this.props.databases.map((database, index) =>
+                        <PickerItemIOS
+                            key={index}
+                            value={index}
+                            label={database.alias}
+                        />
+                    )}
                 </PickerIOS>
             );
         }
