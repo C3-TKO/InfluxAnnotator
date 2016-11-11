@@ -26,10 +26,6 @@ class WriterView extends Component {
         };
     }
 
-    onDateChange = (date) => {
-        this.setState({date: date});
-    };
-
     onPressButton = () => {
         fetch(
             'http://192.168.3.155:8086/write?db=influx-annotator',
@@ -70,7 +66,7 @@ class WriterView extends Component {
                     date={this.state.date}
                     mode="datetime"
                     timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
-                    onDateChange={this.onDateChange}
+                    onDateChange={(date) => this.setState({date})}
                 />
 
                 <TouchableHighlight onPress={this.onPressButton}>
