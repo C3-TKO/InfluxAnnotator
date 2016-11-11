@@ -6,6 +6,7 @@ import {
     PickerIOS,
     TouchableHighlight
 } from 'react-native';
+import DatabasePickerIOS from './databasePicker.ios'
 
 const PickerItemIOS = PickerIOS.Item;
 
@@ -62,29 +63,12 @@ class DatabasesView extends Component {
     };
 
     render() {
-        let databasePicker = null;
-        if ( this.props.databases.length > 0 ) {
-            databasePicker = (
-                <PickerIOS
-                    selectedValue={this.state.index}
-                    onValueChange={(index) => this.setState({index})}>
-                    {this.props.databases.map((database, index) =>
-                        <PickerItemIOS
-                            key={index}
-                            value={index}
-                            label={database.alias}
-                        />
-                    )}
-                </PickerIOS>
-            );
-        }
-
         return (
             <View style={{padding: 10}}>
                 <Text style={{padding: 10, fontSize: 20}}>
                     Databases
                 </Text>
-                {databasePicker}
+                <DatabasePickerIOS/>
                 <TextInput
                     style={{height: 20}}
                     placeholder="Alias for the database"

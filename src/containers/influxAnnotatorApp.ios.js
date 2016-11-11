@@ -27,8 +27,6 @@ class InfluxAnnotatorApp extends Component {
     }
 
     render() {
-        const {state, actions} = this.props;
-
         return (
             <TabBarIOS selectedTab={this.state.selectedTab}>
                 <TabBarItem
@@ -42,8 +40,7 @@ class InfluxAnnotatorApp extends Component {
                         });
                     }}>
                     <DatabasesView
-                        databases={state.databases}
-                        {...actions}
+                        {...this.props.actions}
                     />
                 </TabBarItem>
                 <TabBarItem

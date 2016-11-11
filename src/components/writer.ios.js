@@ -7,6 +7,7 @@ import {
     DatePickerIOS,
     TouchableHighlight
 } from 'react-native';
+import DatabasePickerIOS from './databasePicker.ios'
 
 const PickerItemIOS = PickerIOS.Item;
 
@@ -50,6 +51,7 @@ class WriterView extends Component {
                     placeholder="Type here to write the message of the annotation!"
                     onChangeText={(message) => this.setState({message})}
                 />
+                <DatabasePickerIOS/>
                 <PickerIOS
                     selectedValue={this.state.tag}
                     onValueChange={(tag) => this.setState({tag})}>
