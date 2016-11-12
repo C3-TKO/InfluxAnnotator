@@ -20,12 +20,12 @@ class DatabasePickerIOS extends Component {
 
     render() {
         let databasePicker = null;
-        if ( this.props.state.databases.length > 0 ) {
+        if ( this.props.databases.length > 0 ) {
             databasePicker = (
                 <PickerIOS
                     selectedValue={this.state.index}
                     onValueChange={(index) => this.setState({index})}>
-                    {this.props.state.databases.map((database, index) =>
+                    {this.props.databases.map((database, index) =>
                         <PickerItemIOS
                             key={index}
                             value={index}
@@ -42,8 +42,6 @@ class DatabasePickerIOS extends Component {
 
 export default connect(
     state => ({
-        state: {
-            databases: state.databases
-        }
+        databases: state.databases
     })
 )(DatabasePickerIOS);
