@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
     Text,
     TextInput,
-    View,
+    ScrollView,
     PickerIOS,
     DatePickerIOS,
     TouchableHighlight
@@ -25,20 +26,25 @@ class WriterView extends Component {
             date: this.props.date
         };
     }
-
+    
     onPressButton = () => {
         fetch(
-            'http://192.168.3.155:8086/write?db=influx-annotator',
+            'http://' + this.props.databases[0].url + ':' + this.props.databases[0].port + '/write?db=' + this.props.databases[0].name,
             {
                 method: 'POST',
-                body: 'annotations,type=' + this.state.tag + ' message="' + this.state.message + '" ' + (this.state.date.getTime() * 1000000)
+                body: this.props.databases[0].measurement + ',type=' + this.state.tag + ' message="' + this.state.message + '" ' + (this.state.date.getTime() * 1000000)
             }
         );
     };
 
     render() {
         return (
-            <View style={{padding: 10}}>
+            <ScrollView style={{padding: 10}}>
+                <TouchableHighlight onPress={this.onPressButton}>
+                    <Text style={{padding: 10, fontSize: 20}}>
+                        Annotate!
+                    </Text>
+                </TouchableHighlight>
                 <Text style={{padding: 10, fontSize: 20}}>
                     Message
                 </Text>
@@ -68,15 +74,13 @@ class WriterView extends Component {
                     timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
                     onDateChange={(date) => this.setState({date})}
                 />
-
-                <TouchableHighlight onPress={this.onPressButton}>
-                    <Text style={{padding: 10, fontSize: 20}}>
-                        Annotate!
-                    </Text>
-                </TouchableHighlight>
-            </View>
+            </ScrollView>
         );
     }
 }
 
-module.exports = WriterView;
+export default connect(
+    state => ({
+        databases: state.databases
+    })
+)(WriterView);
