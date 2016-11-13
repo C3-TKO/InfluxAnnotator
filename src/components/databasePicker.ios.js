@@ -18,6 +18,17 @@ class DatabasePickerIOS extends Component {
         };
     }
 
+    componentWillReceiveProps(nextProps) {
+        if(typeof this.state.index == 'undefined' && nextProps.databases.length > 0) {
+            alert('Setting to zero');
+            this.setState({index: 0})
+        }
+        if(this.state.index > nextProps.databases.length - 1) {
+            alert('Setting to new last');
+            this.setState({index: nextProps.databases.length - 1})
+        }
+    }
+
     render() {
         let databasePicker = null;
         if ( this.props.databases.length > 0 ) {
