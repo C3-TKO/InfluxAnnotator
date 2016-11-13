@@ -19,22 +19,22 @@ class DatabasePickerIOS extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(typeof this.state.index == 'undefined' && nextProps.databases.length > 0) {
+        if(typeof this.state.index == 'undefined' && nextProps.databases.credentials.length > 0) {
             this.setState({index: 0})
         }
-        if(this.state.index > nextProps.databases.length - 1) {
-            this.setState({index: nextProps.databases.length - 1})
+        if(this.state.index > nextProps.databases.credentials.length - 1) {
+            this.setState({index: nextProps.databases.credentials.length - 1})
         }
     }
 
     render() {
         let databasePicker = null;
-        if ( this.props.databases.length > 0 ) {
+        if ( this.props.databases.credentials.length > 0 ) {
             databasePicker = (
                 <PickerIOS
                     selectedValue={this.state.index}
                     onValueChange={(index) => this.setState({index})}>
-                    {this.props.databases.map((database, index) =>
+                    {this.props.databases.credentials.map((database, index) =>
                         <PickerItemIOS
                             key={index}
                             value={index}

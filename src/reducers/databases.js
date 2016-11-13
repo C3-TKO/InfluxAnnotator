@@ -1,16 +1,21 @@
 import * as types from '../actions/actionTypes';
 
-const initialState = [];
+const initialState = {
+    selected: undefined,
+    credentials: []
+};
 
-export default function counter(state = initialState, action = {}) {
+export default function databases(state = initialState, action = {}) {
     switch (action.type) {
         case types.ADD_DATABASE:
-            return [
+            return {
             ...state,
+            credentials: [
+                ...state.credentials,
                 {
                     ...action.database
-                }
-            ];
+                }]
+            };
         /*
         case types.EDIT_DATABASE:
             return {
