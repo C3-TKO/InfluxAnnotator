@@ -18,7 +18,7 @@ class DatabasesView extends Component {
         index: undefined,
         url: undefined,
         alias: undefined,
-        port: 8086,
+        port: '8086',
         name: undefined,
         measuremnt: undefined,
         username: undefined,
@@ -87,6 +87,20 @@ class DatabasesView extends Component {
         this.props.actions.deleteDatabase(this.props.databases.selected);
     }
 
+    onPressAddDummyDataButton = () => {
+        this.setState(
+            {
+                url: 'localhost',
+                alias: 'test-alias',
+                port: '8086',
+                name: 'test-db-name',
+                measurement: 'test-measurement',
+                username: 'root',
+                password: 'root'
+            }
+        )
+    }
+
     renderDeleteButton = () => {
         if(typeof this.props.databases.selected !== 'undefined') {
             return (
@@ -147,6 +161,11 @@ class DatabasesView extends Component {
                     </Text>
                 </TouchableHighlight>
                 {this.renderDeleteButton()}
+                <TouchableHighlight onPress={this.onPressAddDummyDataButton}>
+                    <Text style={{padding: 10, fontSize: 20}}>
+                        Add Dummy Data
+                    </Text>
+                </TouchableHighlight>
             </View>
         );
     }
