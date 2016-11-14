@@ -34,8 +34,8 @@ class DatabasePickerIOS extends Component {
         if ( this.props.databases.credentials.length > 0 ) {
             databasePicker = (
                 <PickerIOS
-                    selectedValue={this.state.index}
-                    onValueChange={(index) => this.setState({index})}>
+                    selectedValue={this.props.databases.selected}
+                    onValueChange={(index) => this.props.actions.selectDatabase(index)}>
                     {this.props.databases.credentials.map((database, index) =>
                         <PickerItemIOS
                             key={index}

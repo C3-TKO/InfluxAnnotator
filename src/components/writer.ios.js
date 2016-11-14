@@ -26,13 +26,14 @@ class WriterView extends Component {
             date: this.props.date
         };
     }
-    
+
     onPressButton = () => {
+        const database = this.props.databases[this.props.databases.selected];
         fetch(
-            'http://' + this.props.databases[0].url + ':' + this.props.databases[0].port + '/write?db=' + this.props.databases[0].name,
+            'http://' + database.url + ':' + database.port + '/write?db=' + database.name,
             {
                 method: 'POST',
-                body: this.props.databases[0].measurement + ',type=' + this.state.tag + ' message="' + this.state.message + '" ' + (this.state.date.getTime() * 1000000)
+                body: database.measurement + ',type=' + this.state.tag + ' message="' + this.state.message + '" ' + (this.state.date.getTime() * 1000000)
             }
         );
     };
