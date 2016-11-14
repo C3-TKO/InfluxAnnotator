@@ -24,12 +24,15 @@ export default function databases(state = initialState, action = {}) {
                 ...state,
                 count: state.count - 1
             };
+            */
+
         case types.DELETE_DATABASE:
             return {
                 ...state,
-                count: state.count - 1
+                selected: state.credentials.length,
+                credentials: state.credentials.filter((credential, index) => index != action.index)
             };
-            */
+
         case types.SELECT_DATABASE:
             return {
                 ...state,

@@ -39,9 +39,7 @@ class InfluxAnnotatorApp extends Component {
                             selectedTab: 'sources'
                         });
                     }}>
-                    <DatabasesView
-                        {...this.props.actions}
-                    />
+                    <DatabasesView/>
                 </TabBarItem>
                 <TabBarItem
                     title="Writer"
