@@ -28,6 +28,11 @@ export default function databases(state = initialState, action = {}) {
                 count: state.count - 1
             };
             */
+        case types.SELECT_DATABASE:
+            return {
+                ...state,
+                selected: action.index
+            };
         default:
             return state;
     }

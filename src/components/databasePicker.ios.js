@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as databaseActions from '../actions/databaseActions';
 import {
     PickerIOS
 } from 'react-native';
@@ -52,5 +54,8 @@ class DatabasePickerIOS extends Component {
 export default connect(
     state => ({
         databases: state.databases
+    }),
+    (dispatch) => ({
+        actions: bindActionCreators(databaseActions, dispatch)
     })
 )(DatabasePickerIOS);

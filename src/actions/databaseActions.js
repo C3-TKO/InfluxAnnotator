@@ -21,3 +21,10 @@ export function deleteDatabase(index) {
         index: index
     };
 }
+
+export function selectDatabase(index) {
+    return {
+        type: types.SELECT_DATABASE,
+        index: index
+    };
+}
