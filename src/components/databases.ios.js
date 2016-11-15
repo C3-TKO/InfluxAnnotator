@@ -10,6 +10,7 @@ import {
     TouchableHighlight
 } from 'react-native';
 import DatabasePickerIOS from './databasePicker.ios'
+import databaseIncompleteException from '../exceptions/databaseIncompleteException';
 
 const PickerItemIOS = PickerIOS.Item;
 
@@ -51,7 +52,29 @@ class DatabasesView extends Component {
         }
     }
 
+    checkAliasAlreadyExisting = () => {
+
+    }
+
+    checkCredentialsCompleteness = () => {
+        const database = this.getDatabaseFromState();
+
+        for(var property in database) {
+            if(database.hasOwnProperty(property)) {
+                if (typeof database[property] === 'undefined') {
+                    throw new databaseIncompleteException(property);
+                }
+            }
+        }
+    }
+
     onPressAddButton = () => {
+        try {
+            this.checkCredentialsCompleteness();
+        }
+        catch (e) {
+            alert(e.message);
+        }
         /*
         fetch(
 
