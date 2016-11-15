@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import DatabasePickerIOS from './databasePicker.ios'
 import databaseIncompleteException from '../exceptions/databaseIncompleteException';
+import aliasAlreadyInUseException from '../exceptions/aliasAlreadyInUseException'
 
 class DatabasesView extends Component {
     static defaultProps = {
@@ -51,7 +52,11 @@ class DatabasesView extends Component {
     }
 
     checkAliasAlreadyExisting = () => {
-
+        this.props.databases.credentials.map((database, index) => {
+            if (database.alias == this.state.alias) {
+                throw new aliasAlreadyInUseException(this.state.alias, index);
+            }
+        })
     }
 
     checkCredentialsCompleteness = () => {
@@ -69,13 +74,30 @@ class DatabasesView extends Component {
     onPressAddButton = () => {
         try {
             this.checkCredentialsCompleteness();
+            this.checkAliasAlreadyExisting();
         }
         catch (e) {
-            AlertIOS.alert(
-                'Database incomplete',
-                e.message
-            );
+            if (e instanceof databaseIncompleteException) {
+                AlertIOS.alert(
+                    'Database incomplete',
+                    e.message
+                );
+                return
+            }
+            if (e instanceof aliasAlreadyInUseException) {
+                AlertIOS.alert(
+                    'Conflict',
+                    e.message,
+                    [
+                        {text: 'Cancel', onPress: () => {}, style: 'cancel'},
+                        {text: 'Overwrite', onPress: () => alert('Install Pressed'), style: 'destructive'}
+                    ]
+                );
+                return
+            }
         }
+
+
         /*
         fetch(
 
