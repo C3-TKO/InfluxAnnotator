@@ -39,6 +39,18 @@ class DatabasesView extends Component {
         };
     }
 
+    getDatabaseFromState = () => {
+        return {
+            url: this.state.url,
+            alias: this.state.alias,
+            port: this.state.port,
+            name: this.state.name,
+            measurement: this.state.measurement,
+            username: this.state.username,
+            password: this.state.password
+        }
+    }
+
     onPressAddButton = () => {
         /*
         fetch(
@@ -50,15 +62,7 @@ class DatabasesView extends Component {
         );
         */
 
-        const database = {
-            url: this.state.url,
-            alias: this.state.alias,
-            port: this.state.port,
-            name: this.state.name,
-            measurement: this.state.measurement,
-            username: this.state.username,
-            password: this.state.password
-        }
+        const database = this.getDatabaseFromState();
 
         /*
         if(typeof this.props.databases.selected !== 'undefined') {
