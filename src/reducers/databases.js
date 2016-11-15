@@ -29,7 +29,7 @@ export default function databases(state = initialState, action = {}) {
         case types.DELETE_DATABASE:
             return {
                 ...state,
-                selected: (state.credentials.length === 1) ? undefined : state.credentials.length - 1,
+                selected: (state.credentials.length === 1) ? undefined : action.index,
                 credentials: state.credentials.filter((credential, index) => index != action.index)
             };
 

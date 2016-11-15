@@ -50,7 +50,6 @@ class DatabasesView extends Component {
         );
         */
 
-        /*
         const database = {
             url: this.state.url,
             alias: this.state.alias,
@@ -59,18 +58,6 @@ class DatabasesView extends Component {
             measurement: this.state.measurement,
             username: this.state.username,
             password: this.state.password
-        }
-        */
-
-
-        const database = {
-            url: 'localhost',
-            alias: 'test-alias',
-            port: 8086,
-            name: 'test-db-name',
-            measurement: 'test-measurement',
-            username: 'root',
-            password: 'root'
         }
 
         /*
@@ -102,7 +89,7 @@ class DatabasesView extends Component {
     }
 
     renderDeleteButton = () => {
-        if(typeof this.props.databases.selected !== 'undefined') {
+        if(this.props.databases.credentials.length > 0) {
             return (
                 <TouchableHighlight onPress={this.onPressDeleteButton}>
                     <Text style={{padding: 10, fontSize: 20}}>
@@ -124,36 +111,45 @@ class DatabasesView extends Component {
                     style={{height: 20}}
                     placeholder="Alias for the database"
                     onChangeText={(alias) => this.setState({alias})}
+                    value={this.state.alias}
                 />
                 <TextInput
                     style={{height: 20}}
                     placeholder="url"
                     onChangeText={(url) => this.setState({url})}
+                    value={this.state.url}
                 />
                 <TextInput
                     style={{height: 20}}
                     placeholder="port"
                     onChangeText={(port) => this.setState({port})}
+                    value={this.state.port}
+                    keyboardType='numeric'
+
                 />
                 <TextInput
                     style={{height: 20}}
                     placeholder="Database name"
                     onChangeText={(name) => this.setState({name})}
+                    value={this.state.name}
                 />
                 <TextInput
                     style={{height: 20}}
                     placeholder="Measurement"
                     onChangeText={(measurement) => this.setState({measurement})}
+                    value={this.state.measurement}
                 />
                 <TextInput
                     style={{height: 20}}
                     placeholder="Username"
                     onChangeText={(username) => this.setState({username})}
+                    value={this.state.username}
                 />
                 <TextInput
                     style={{height: 20}}
                     placeholder="Password"
                     onChangeText={(password) => this.setState({password})}
+                    value={this.state.password}
                 />
                 <TouchableHighlight onPress={this.onPressAddButton}>
                     <Text style={{padding: 10, fontSize: 20}}>
