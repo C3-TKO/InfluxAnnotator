@@ -6,6 +6,7 @@ import {
     Text,
     TextInput,
     View,
+    AlertIOS,
     TouchableHighlight
 } from 'react-native';
 import DatabasePickerIOS from './databasePicker.ios'
@@ -70,7 +71,10 @@ class DatabasesView extends Component {
             this.checkCredentialsCompleteness();
         }
         catch (e) {
-            alert(e.message);
+            AlertIOS.alert(
+                'Database incomplete',
+                e.message
+            );
         }
         /*
         fetch(
