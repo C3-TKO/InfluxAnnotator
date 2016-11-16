@@ -71,9 +71,19 @@ class DatabasesView extends Component {
         }
     }
 
+    testCredentials = () => {
+        fetch(
+            'http://' + this.state.url + ':' + this.state.port + '/query?db=' + this.state.name + '&q=SELECT%20*%20FROM%20' + this.state.measurement + '%20LIMIT%201',
+            {
+                method: 'GET'
+            }
+        );
+    }
+
     onPressAddButton = () => {
         try {
             this.checkCredentialsCompleteness();
+            this.testCredentials();
             this.checkAliasAlreadyExisting();
         }
         catch (e) {
@@ -99,13 +109,7 @@ class DatabasesView extends Component {
 
 
         /*
-        fetch(
 
-            'http://' + this.state.url + ':' + this.state.port + '/query?db=' + this.state.name + '&q=SELECT%20*%20FROM%20' + this.state.measurement + '%20LIMIT%201',
-            {
-                method: 'GET'
-            }
-        );
         */
 
         const database = this.getDatabaseFromState();
