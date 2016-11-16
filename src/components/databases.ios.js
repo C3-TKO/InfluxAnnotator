@@ -81,9 +81,11 @@ class DatabasesView extends Component {
     }
 
     onPressAddButton = () => {
+        const database = this.getDatabaseFromState();
+
         try {
             this.checkCredentialsCompleteness();
-            this.testCredentials();
+            //this.testCredentials();
             this.checkAliasAlreadyExisting();
         }
         catch (e) {
@@ -100,7 +102,7 @@ class DatabasesView extends Component {
                     e.message,
                     [
                         {text: 'Cancel', onPress: () => {}, style: 'cancel'},
-                        {text: 'Overwrite', onPress: () => alert('Install Pressed'), style: 'destructive'}
+                        {text: 'Overwrite', onPress: () => this.props.actions.editDatabase(e.index, database), style: 'destructive'}
                     ]
                 );
                 return
@@ -108,11 +110,6 @@ class DatabasesView extends Component {
         }
 
 
-        /*
-
-        */
-
-        const database = this.getDatabaseFromState();
 
         /*
         if(typeof this.props.databases.selected !== 'undefined') {

@@ -18,14 +18,15 @@ export default function databases(state = initialState, action = {}) {
                     }
                 ]
             };
-        /*
         case types.EDIT_DATABASE:
             return {
                 ...state,
-                count: state.count - 1
+                selected: action.index, // Needs to be set for the case of overwriting an existing database
+                credentials: state.credentials.map((credential, index) => index === action.index
+                                                                            ? action.database
+                                                                            : credential
+                )
             };
-            */
-
         case types.DELETE_DATABASE:
             return {
                 ...state,
