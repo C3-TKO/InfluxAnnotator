@@ -136,6 +136,10 @@ class DatabasesView extends Component {
         //}
     }
 
+    onPressAddButton = () => {
+        alert('EDIT');
+    }
+
     onPressDeleteButton = () => {
         this.props.actions.deleteDatabase(this.props.databases.selected);
     }
@@ -152,6 +156,18 @@ class DatabasesView extends Component {
                 password: 'root'
             }
         )
+    }
+
+    renderEditButton = () => {
+        if(typeof this.props.databases.selected !== 'undefined') {
+            return (
+                <TouchableHighlight onPress={this.onPressEditButton}>
+                    <Text style={{padding: 10, fontSize: 20}}>
+                        Edit {this.props.databases.credentials[this.props.databases.selected].alias}
+                    </Text>
+                </TouchableHighlight>
+            )
+        }
     }
 
     renderDeleteButton = () => {
@@ -222,6 +238,7 @@ class DatabasesView extends Component {
                         (Test &) Save
                     </Text>
                 </TouchableHighlight>
+                {this.renderEditButton()}
                 {this.renderDeleteButton()}
                 <TouchableHighlight onPress={this.onPressAddDummyDataButton}>
                     <Text style={{padding: 10, fontSize: 20}}>
