@@ -66,9 +66,9 @@ class DatabasesView extends Component {
         }
     }
 
-    checkAliasAlreadyExisting = () => {
+    checkAliasAlreadyExisting = (indexOfCurrentlyEditedDatabase) => {
         this.props.databases.credentials.map((database, index) => {
-            if (database.alias == this.state.alias) {
+            if (database.alias == this.state.alias && indexOfCurrentlyEditedDatabase !== index) {
                 throw new aliasAlreadyInUseException(this.state.alias, index);
             }
         })
@@ -95,13 +95,13 @@ class DatabasesView extends Component {
         );
     }
 
-    onPressAddButton = () => {
+    writeDatabase = (index) => {
         const database = this.getDatabaseFromState();
 
         try {
             this.checkCredentialsCompleteness();
             //this.testCredentials();
-            this.checkAliasAlreadyExisting();
+            this.checkAliasAlreadyExisting(index);
         }
         catch (e) {
             if (e instanceof databaseIncompleteException) {
@@ -124,20 +124,20 @@ class DatabasesView extends Component {
             }
         }
 
-
-
-        /*
-        if(typeof this.props.databases.selected !== 'undefined') {
-            this.props.actions.editDatabase(this.props.databases.selected, database);
-        }
-        */
-        //else {
+        if (typeof index === 'undefined') {
             this.props.actions.addDatabase(database);
-        //}
+        }
+        else {
+            this.props.actions.editDatabase(index, database);
+        }
     }
 
     onPressAddButton = () => {
-        alert('EDIT');
+        this.writeDatabase();
+    }
+
+    onPressEditButton = () => {
+        this.writeDatabase(this.props.databases.selected)
     }
 
     onPressDeleteButton = () => {
