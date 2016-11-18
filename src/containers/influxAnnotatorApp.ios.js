@@ -2,13 +2,15 @@
 
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
+import * as databaseActions from '../actions/databaseActions';
+import { connect } from 'react-redux';
+
 import { TabBarIOS } from 'react-native';
 import WriterView from '../components/writer.ios.js';
 import DatabasesView from '../components/databases.ios.js';
 import AnnotationsView from '../components/annotations.ios.js';
 import Icon from 'react-native-vector-icons/Ionicons';
-import * as databaseActions from '../actions/databaseActions';
-import { connect } from 'react-redux';
+
 
 const TabBarItem = Icon.TabBarItemIOS;
 
@@ -68,8 +70,11 @@ class InfluxAnnotatorApp extends Component {
     }
 }
 
-export default connect(state => ({
-        state: state.counter
+export default connect(
+    state => ({
+        state: {
+            databases: state.databases
+        }
     }),
     (dispatch) => ({
         actions: bindActionCreators(databaseActions, dispatch)

@@ -1,20 +1,43 @@
 import * as types from '../actions/actionTypes';
 
 const initialState = {
-    count: 0
+    selected: undefined,
+    credentials: []
 };
 
-export default function counter(state = initialState, action = {}) {
+export default function databases(state = initialState, action = {}) {
     switch (action.type) {
-        case types.INCREMENT:
+        case types.ADD_DATABASE:
             return {
                 ...state,
-                count: state.count + 1
+                selected: state.credentials.length,
+                credentials: [
+                    ...state.credentials,
+                    {
+                        ...action.database
+                    }
+                ]
             };
-        case types.DECREMENT:
+        case types.EDIT_DATABASE:
             return {
                 ...state,
-                count: state.count - 1
+                selected: action.index, // Needs to be set for the case of overwriting an existing database
+                credentials: state.credentials.map((credential, index) => index === action.index
+                                                                            ? action.database
+                                                                            : credential
+                )
+            };
+        case types.DELETE_DATABASE:
+            return {
+                ...state,
+                selected: (state.credentials.length === 1) ? undefined : action.index,
+                credentials: state.credentials.filter((credential, index) => index != action.index)
+            };
+
+        case types.SELECT_DATABASE:
+            return {
+                ...state,
+                selected: action.index
             };
         default:
             return state;
