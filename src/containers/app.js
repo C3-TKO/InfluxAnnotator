@@ -21,7 +21,7 @@ const store = createStore(
 )
 
 persistStore(store, {storage: AsyncStorage}, () => {
-    alert('restored')
+//    alert('restored')
 })
 
 export default class App extends Component {
