@@ -40,18 +40,20 @@ class DatabasesView extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const database = nextProps.databases.credentials[nextProps.databases.selected];
+        if(nextProps.databases.selected) {
+            const database = nextProps.databases.credentials[nextProps.databases.selected];
 
-        this.setState ({
-            index: database.index,
-            url: database.url,
-            alias: database.alias,
-            port: database.port,
-            name: database.name,
-            measurement: database.measurement,
-            username: database.username,
-            password: database.password
-        })
+            this.setState ({
+                index: database.index,
+                url: database.url,
+                alias: database.alias,
+                port: database.port,
+                name: database.name,
+                measurement: database.measurement,
+                username: database.username,
+                password: database.password
+            })
+        }
     }
 
     getDatabaseFromState = () => {
