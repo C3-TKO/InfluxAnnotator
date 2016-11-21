@@ -28,7 +28,7 @@ class WriterView extends Component {
     }
 
     onPressButton = () => {
-        const database = this.props.databases[this.props.databases.selected];
+        const database = this.props.databases.credentials[this.props.databases.selected];
         fetch(
             'http://' + database.url + ':' + database.port + '/write?db=' + database.name,
             {
