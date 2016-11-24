@@ -150,10 +150,10 @@ class DatabasesView extends Component {
         this.setState(
             {
                 url: 'localhost',
-                alias: 'test-alias',
+                alias: 'local-influx_annotator',
                 port: '8086',
-                name: 'test-db-name',
-                measurement: 'test-measurement',
+                name: 'influx_annotator',
+                measurement: 'annotations',
                 username: 'root',
                 password: 'root'
             }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-    View,
+    ScrollView,
     Text,
     TouchableHighlight
 } from 'react-native';
@@ -16,17 +16,25 @@ class AnnotationsView extends Component {
 
     loadAnnotations = () => {
         const database = this.props.databases.credentials[this.props.databases.selected];
-        fetch(
+        return fetch(
             'http://' + database.url + ':' + database.port + '/query?db=' + database.name + '&q=SELECT * FROM ' + database.measurement,
             {
                 method: 'GET'
             }
-        );
+        )
+        .then((response) => response.json())
+        .then((responseJson) => {
+            console.log(responseJson);
+            return responseJson;
+        })
+        .catch((error) => {
+            console.error(error)
+        });
     };
 
     render() {
         return (
-            <View style={{padding: 10}}>
+            <ScrollView style={{padding: 10}}>
                 <TouchableHighlight onPress={this.loadAnnotations}>
                     <Text style={{padding: 10, fontSize: 20}}>
                         Read
@@ -35,7 +43,7 @@ class AnnotationsView extends Component {
                 <Text style={{padding: 10, fontSize: 20}}>
                     Annotations
                 </Text>
-            </View>
+            </ScrollView>
         );
     }
 }
