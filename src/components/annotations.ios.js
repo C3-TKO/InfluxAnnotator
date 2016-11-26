@@ -39,19 +39,18 @@ class AnnotationsView extends Component {
         console.log(annotations);
 
         /*
-        { results:
-            [ { series:
-                [ { name: 'annotations',
-                    columns: [ 'time', 'message', 'type' ],
-                    values:
-                        [ [ '2016-11-24T20:11:00Z', 'Test', 'manual' ],
-                            [ '2016-11-24T20:12:00Z', 'Booyakasha', 'manual' ],
-                            [ '2016-11-24T20:12:00.154Z', 'Test', 'manual' ] ] } ] } ] }
-*/
-        
+        [
+            [ '2016-11-24T20:11:00Z', 'Test', 'manual' ],
+            [ '2016-11-24T20:12:00Z', 'Booyakasha', 'manual' ],
+            [ '2016-11-24T20:12:00.154Z', 'Test', 'manual' ]
+        ]
+        */
+
+        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
         return (
             <ListView>
-                dataSource={annotations}
+                dataSource={ds.cloneWithRows(annotations)}
                 renderRow={(rowData) => <Text>{rowData[0] + rowData[1] + rowData[2]}</Text>}
             </ListView>
         )
