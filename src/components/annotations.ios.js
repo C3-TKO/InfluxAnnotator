@@ -12,7 +12,12 @@ class AnnotationsView extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {};
+        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        this.state = {
+            dataSource: ds.cloneWithRows([
+                [ '2016-11-24T20:11:00Z', 'Test', 'manual' ]
+            ])
+        };
     }
 
     loadAnnotations = () => {
@@ -26,7 +31,15 @@ class AnnotationsView extends Component {
         .then((response) => response.json())
         .then((responseJson) => {
             console.log(responseJson.results[0].series[0].values);
-            return responseJson.results[0].series[0].values;
+
+            const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
+            this.setState({
+                dataSource: ds.cloneWithRows(
+                    responseJson.results[0].series[0].values
+                )
+            })
+
         })
         .catch((error) => {
             console.error(error)
@@ -34,40 +47,35 @@ class AnnotationsView extends Component {
     };
 
     renderAnnotations = () => {
-        const annotations = this.loadAnnotations();
+        //const annotations = this.loadAnnotations();
 
-        console.log(annotations);
+        //console.log(annotations);
 
         /*
-        [
-            [ '2016-11-24T20:11:00Z', 'Test', 'manual' ],
-            [ '2016-11-24T20:12:00Z', 'Booyakasha', 'manual' ],
-            [ '2016-11-24T20:12:00.154Z', 'Test', 'manual' ]
-        ]
-        */
-
-        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+         [
+         [ '2016-11-24T20:11:00Z', 'Test', 'manual' ],
+         [ '2016-11-24T20:12:00Z', 'Booyakasha', 'manual' ],
+         [ '2016-11-24T20:12:00.154Z', 'Test', 'manual' ]
+         ]
+         */
 
         return (
-            <ListView>
-                dataSource={ds.cloneWithRows(annotations)}
-                renderRow={(rowData) => <Text>{rowData[0] + rowData[1] + rowData[2]}</Text>}
-            </ListView>
+            <ListView
+                dataSource={this.state.dataSource}
+                renderRow={(rowData) => {console.log(rowData); return(<Text>{rowData}</Text>)}}
+            />
         )
 
     };
 
     render() {
         return (
-            <ScrollView style={{padding: 10}}>
+            <ScrollView>
                 <TouchableHighlight onPress={this.loadAnnotations}>
                     <Text style={{padding: 10, fontSize: 20}}>
                         Read
                     </Text>
                 </TouchableHighlight>
-                <Text style={{padding: 10, fontSize: 20}}>
-                    Annotations
-                </Text>
                 {this.renderAnnotations()}
             </ScrollView>
         );
