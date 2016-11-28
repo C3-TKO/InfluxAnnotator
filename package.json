@@ -4,7 +4,11 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "influx-setup": "docker run -d --name \"influx-annotator\" --volume=/Users/tomtom/var/influxdb:/data -p 8083:8083 -p 8086:8086 tutum/influxdb",
+    "influx-run": "docker restart \"influx-annotator\"",
+    "influx-stop": "docker stop \"influx-annotator\"",
+    "influx-purge": "docker kill \"influx-annotator\" && docker rm \"influx-annotator\" && rm -rf /Users/tomtom/var/influxdb"
   },
   "dependencies": {
     "react": "15.3.2",
