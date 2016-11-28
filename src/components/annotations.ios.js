@@ -14,9 +14,7 @@ class AnnotationsView extends Component {
         super(props);
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            dataSource: ds.cloneWithRows([
-                [ '2016-11-24T20:11:00Z', 'Test', 'manual' ]
-            ])
+            dataSource: ds.cloneWithRows([])
         };
     }
 
@@ -47,18 +45,6 @@ class AnnotationsView extends Component {
     };
 
     renderAnnotations = () => {
-        //const annotations = this.loadAnnotations();
-
-        //console.log(annotations);
-
-        /*
-         [
-         [ '2016-11-24T20:11:00Z', 'Test', 'manual' ],
-         [ '2016-11-24T20:12:00Z', 'Booyakasha', 'manual' ],
-         [ '2016-11-24T20:12:00.154Z', 'Test', 'manual' ]
-         ]
-         */
-
         return (
             <ListView
                 dataSource={this.state.dataSource}
