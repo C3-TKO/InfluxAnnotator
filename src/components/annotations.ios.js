@@ -21,7 +21,7 @@ class AnnotationsView extends Component {
     loadAnnotations = () => {
         const database = this.props.databases.credentials[this.props.databases.selected];
         return fetch(
-            'http://' + database.url + ':' + database.port + '/query?db=' + database.name + '&q=SELECT * FROM ' + database.measurement,
+            'http://' + database.url + ':' + database.port + '/query?db=' + database.name + '&q=SELECT * FROM ' + database.measurement + ' ORDER BY time DESC LIMIT 50',
             {
                 method: 'GET'
             }
