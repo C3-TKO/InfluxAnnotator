@@ -11,6 +11,7 @@
     "influx-purge": "docker kill \"influx-annotator\" && docker rm \"influx-annotator\" && rm -rf /Users/tomtom/var/influxdb"
   },
   "dependencies": {
+    "panza": "^2.3.0",
     "react": "15.3.2",
     "react-native": "0.36.1",
     "react-native-vector-icons": "^3.0.0",
