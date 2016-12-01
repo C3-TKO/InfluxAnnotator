@@ -5,10 +5,12 @@ import {
     TextInput,
     ScrollView,
     PickerIOS,
-    DatePickerIOS,
-    TouchableHighlight
+    TouchableHighlight,
+    LayoutAnimation
 } from 'react-native';
 import DatabasePickerIOS from './databasePicker.ios'
+
+import { InputDatePicker } from 'panza'
 
 const PickerItemIOS = PickerIOS.Item;
 
@@ -23,9 +25,19 @@ class WriterView extends Component {
         this.state = {
             message: '',
             tag: this.props.tag,
-            date: this.props.date
+            date: this.props.date,
+            focusDate: false
         };
     }
+
+    dateTimeLocalOptions = {
+        weekday: "short",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+    };
 
     onPressButton = () => {
         const database = this.props.databases.credentials[this.props.databases.selected];
@@ -46,9 +58,37 @@ class WriterView extends Component {
                         Annotate!
                     </Text>
                 </TouchableHighlight>
+
+
+                <InputDatePicker
+                    hasFocus={this.state.showDate}
+                    label={'Time'}
+                    onRequestFocus={() => {
+                        this.setState({ showDate: true })
+                    }}
+                    onRequestClose={() => {
+                        this.setState({ showDate: false })
+                    }}
+                    onDateChange={(date) => {
+                        this.setState({ date })
+                    }}
+                    value={new Date(this.state.date).toLocaleDateString('en-US', this.dateTimeLocalOptions)}
+                    date={this.state.date}
+                    expanded={this.state.focusDate}
+                    onToggleExpansion={() => {
+                        LayoutAnimation.linear()
+                        this.setState({ focusDate: !this.state.focusDate })
+                    }}
+
+                />
+
+
                 <Text style={{padding: 10, fontSize: 20}}>
                     Message
                 </Text>
+
+
+
                 <TextInput
                     style={{height: 20}}
                     placeholder="Type here to write the message of the annotation!"
@@ -69,12 +109,7 @@ class WriterView extends Component {
                         label='live-deploy'
                     />
                 </PickerIOS>
-                <DatePickerIOS
-                    date={this.state.date}
-                    mode="datetime"
-                    timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
-                    onDateChange={(date) => this.setState({date})}
-                />
+
             </ScrollView>
         );
     }
