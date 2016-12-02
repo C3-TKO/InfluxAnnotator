@@ -4,15 +4,15 @@ import {
     Text,
     TextInput,
     ScrollView,
-    PickerIOS,
+    Picker,
     TouchableHighlight,
     LayoutAnimation
 } from 'react-native';
 import DatabasePickerIOS from './databasePicker.ios'
-
-import { InputDatePicker } from 'panza'
-
-const PickerItemIOS = PickerIOS.Item;
+import {
+    InputDatePicker,
+    InputPicker
+} from 'panza'
 
 class WriterView extends Component {
     static defaultProps = {
@@ -26,7 +26,8 @@ class WriterView extends Component {
             message: '',
             tag: this.props.tag,
             date: this.props.date,
-            focusDate: false
+            focusDate: false,
+            focusPicker: false,
         };
     }
 
@@ -82,6 +83,31 @@ class WriterView extends Component {
 
                 />
 
+                <InputPicker
+                    expanded={this.state.focusPicker}
+                    value={this.state.tag}
+                    label='Tag'
+                    editable={this.state.editable}
+                    onToggleExpansion={() => {
+                    this.setState({ focusPicker: !this.state.focusPicker })
+                }}>
+                    <Picker
+                        prompt='Tag'
+                        style={{ width: 300 }}
+                        selectedValue={this.state.tag}
+                        onValueChange={(tag) => this.setState({tag})}>
+                        <Picker.Item
+                            key='manual'
+                            value='manual'
+                            label='manual'
+                        />
+                        <Picker.Item
+                            key='live-deploy'
+                            value='live-deploy'
+                            label='live-deploy'
+                        />
+                    </Picker>
+                </InputPicker>
 
                 <Text style={{padding: 10, fontSize: 20}}>
                     Message
@@ -95,20 +121,6 @@ class WriterView extends Component {
                     onChangeText={(message) => this.setState({message})}
                 />
                 <DatabasePickerIOS/>
-                <PickerIOS
-                    selectedValue={this.state.tag}
-                    onValueChange={(tag) => this.setState({tag})}>
-                    <PickerItemIOS
-                        key='manual'
-                        value='manual'
-                        label='manual'
-                    />
-                    <PickerItemIOS
-                        key='live-deploy'
-                        value='live-deploy'
-                        label='live-deploy'
-                    />
-                </PickerIOS>
 
             </ScrollView>
         );
