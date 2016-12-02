@@ -5,8 +5,7 @@ import {
     TextInput,
     ScrollView,
     Picker,
-    TouchableHighlight,
-    LayoutAnimation
+    TouchableHighlight
 } from 'react-native';
 import DatabasePickerIOS from './databasePicker.ios'
 import {
@@ -77,7 +76,6 @@ class WriterView extends Component {
                     date={this.state.date}
                     expanded={this.state.focusDate}
                     onToggleExpansion={() => {
-                        LayoutAnimation.linear()
                         this.setState({ focusDate: !this.state.focusDate })
                     }}
 
