@@ -8,7 +8,7 @@ import {
 
 const PickerItemIOS = PickerIOS.Item;
 
-class DatabasePickerIOS extends Component {
+class DatabasePicker extends Component {
 
     render() {
         let databasePicker = null;
@@ -39,4 +39,4 @@ export default connect(
     (dispatch) => ({
         actions: bindActionCreators(databaseActions, dispatch)
     })
-)(DatabasePickerIOS);
+)(DatabasePicker);

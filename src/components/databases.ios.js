@@ -9,7 +9,7 @@ import {
     AlertIOS,
     TouchableHighlight
 } from 'react-native';
-import DatabasePickerIOS from './databasePicker.ios'
+import DatabasePicker from './databasePicker'
 import databaseIncompleteException from '../exceptions/databaseIncompleteException';
 import aliasAlreadyInUseException from '../exceptions/aliasAlreadyInUseException'
 
@@ -190,7 +190,7 @@ class DatabasesView extends Component {
                 <Text style={{padding: 10, fontSize: 20}}>
                     Databases
                 </Text>
-                <DatabasePickerIOS/>
+                <DatabasePicker/>
                 <TextInput
                     style={{height: 20}}
                     placeholder="Alias for the database"

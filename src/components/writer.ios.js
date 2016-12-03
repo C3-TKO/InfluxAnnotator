@@ -7,7 +7,7 @@ import {
     Picker,
     TouchableHighlight
 } from 'react-native';
-import DatabasePickerIOS from './databasePicker.ios'
+import DatabasePicker from './databasePicker'
 import {
     InputDatePicker,
     InputPicker
@@ -118,7 +118,7 @@ class WriterView extends Component {
                     placeholder="Type here to write the message of the annotation!"
                     onChangeText={(message) => this.setState({message})}
                 />
-                <DatabasePickerIOS/>
+                <DatabasePicker/>
 
             </ScrollView>
         );
