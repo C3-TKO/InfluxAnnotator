@@ -107,19 +107,17 @@ class WriterView extends Component {
                     </Picker>
                 </InputPicker>
 
+                <DatabasePicker/>
+
                 <Text style={{padding: 10, fontSize: 20}}>
                     Message
                 </Text>
-
-
 
                 <TextInput
                     style={{height: 20}}
                     placeholder="Type here to write the message of the annotation!"
                     onChangeText={(message) => this.setState({message})}
                 />
-                <DatabasePicker/>
-
             </ScrollView>
         );
     }
