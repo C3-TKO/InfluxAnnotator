@@ -5,7 +5,7 @@ import * as databaseActions from '../actions/databaseActions';
 import {
     Text,
     TextInput,
-    View,
+    ScrollView,
     AlertIOS,
     TouchableHighlight
 } from 'react-native';
@@ -186,7 +186,7 @@ class DatabasesView extends Component {
 
     render() {
         return (
-            <View style={{padding: 10}}>
+            <ScrollView style={{padding: 10}}>
                 <Text style={{padding: 10, fontSize: 20}}>
                     Databases
                 </Text>
@@ -247,7 +247,7 @@ class DatabasesView extends Component {
                         Add Dummy Data
                     </Text>
                 </TouchableHighlight>
-            </View>
+            </ScrollView>
         );
     }
 }
