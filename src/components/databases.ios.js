@@ -40,7 +40,7 @@ class DatabasesView extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.databases.selected) {
+        if(typeof nextProps.databases.selected !== 'undefined') {
             const database = nextProps.databases.credentials[nextProps.databases.selected];
 
             this.setState ({
