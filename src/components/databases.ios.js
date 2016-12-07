@@ -13,6 +13,11 @@ import DatabasePicker from './databasePicker'
 import databaseIncompleteException from '../exceptions/databaseIncompleteException';
 import aliasAlreadyInUseException from '../exceptions/aliasAlreadyInUseException'
 
+import {
+    InputRow
+} from 'panza';
+
+
 class DatabasesView extends Component {
     static defaultProps = {
         index: undefined,
@@ -191,50 +196,40 @@ class DatabasesView extends Component {
                     Databases
                 </Text>
                 <DatabasePicker/>
-                <TextInput
-                    style={{height: 20}}
-                    placeholder="Alias for the database"
-                    onChangeText={(alias) => this.setState({alias})}
-                    value={this.state.alias}
-                />
-                <TextInput
-                    style={{height: 20}}
-                    placeholder="url"
-                    onChangeText={(url) => this.setState({url})}
-                    value={this.state.url}
-                />
-                <TextInput
-                    style={{height: 20}}
-                    placeholder="port"
-                    onChangeText={(port) => this.setState({port})}
-                    value={this.state.port}
-                    keyboardType='numeric'
 
-                />
-                <TextInput
-                    style={{height: 20}}
-                    placeholder="Database name"
-                    onChangeText={(name) => this.setState({name})}
+                <InputRow
+                    label='Alias'
+                    placeholder='Alias for the database'
+                    value={this.state.alias}
+                    onChangeText={(alias) => this.setState({ alias })} />
+                <InputRow
+                    label='Url'
+                    placeholder='url'
+                    value={this.state.url}
+                    onChangeText={(url) => this.setState({ url })} />
+                <InputRow
+                    label='Port'
+                    placeholder='8083'
+                    value={this.state.port}
+                    onChangeText={(port) => this.setState({ port })} />
+                <InputRow
+                    label='Database name'
                     value={this.state.name}
-                />
-                <TextInput
-                    style={{height: 20}}
-                    placeholder="Measurement"
-                    onChangeText={(measurement) => this.setState({measurement})}
+                    onChangeText={(name) => this.setState({ name })} />
+                <InputRow
+                    label='Measurement'
+                    placeholder='annotations'
                     value={this.state.measurement}
-                />
-                <TextInput
-                    style={{height: 20}}
-                    placeholder="Username"
-                    onChangeText={(username) => this.setState({username})}
+                    onChangeText={(measurement) => this.setState({ measurement })} />
+                <InputRow
+                    label='User'
                     value={this.state.username}
-                />
-                <TextInput
-                    style={{height: 20}}
-                    placeholder="Password"
-                    onChangeText={(password) => this.setState({password})}
+                    onChangeText={(username) => this.setState({ username })} />
+                <InputRow
+                    label='Password'
                     value={this.state.password}
-                />
+                    onChangeText={(password) => this.setState({ password })} />
+
                 <TouchableHighlight onPress={this.onPressAddButton}>
                     <Text style={{padding: 10, fontSize: 20}}>
                         (Test &) Save
