@@ -5,9 +5,7 @@ import * as databaseActions from '../actions/databaseActions';
 import {
     Picker
 } from 'react-native';
-import {
-    InputPicker
-} from 'panza'
+import { InputPicker } from 'panza';
 
 class DatabasePicker extends Component {
 

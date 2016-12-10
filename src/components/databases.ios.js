@@ -12,11 +12,7 @@ import {
 import DatabasePicker from './databasePicker'
 import databaseIncompleteException from '../exceptions/databaseIncompleteException';
 import aliasAlreadyInUseException from '../exceptions/aliasAlreadyInUseException'
-
-import {
-    InputRow
-} from 'panza';
-
+import InputRow from './panza-migrations/inputRow';
 
 class DatabasesView extends Component {
     static defaultProps = {
