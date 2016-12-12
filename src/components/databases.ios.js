@@ -28,15 +28,23 @@ class DatabasesView extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            index: this.props.index,
-            url: this.props.url,
-            alias: this.props.alias,
-            port: this.props.port,
-            name: this.props.name,
-            measurement: this.props.measurement,
-            username: this.props.username,
-            password: this.props.password
+        if(typeof props.databases.selected !== undefined) {
+            this.state = {
+                ...props.databases.credentials[props.databases.selected]
+            }
+        }
+
+        else {
+            this.state = {
+                index: this.props.index,
+                url: this.props.url,
+                alias: this.props.alias,
+                port: this.props.port,
+                name: this.props.name,
+                measurement: this.props.measurement,
+                username: this.props.username,
+                password: this.props.password
+            }
         };
     }
 
