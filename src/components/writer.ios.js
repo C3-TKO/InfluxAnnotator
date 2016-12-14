@@ -4,13 +4,14 @@ import {
     Text,
     TextInput,
     ScrollView,
-    PickerIOS,
-    DatePickerIOS,
+    Picker,
     TouchableHighlight
 } from 'react-native';
-import DatabasePickerIOS from './databasePicker.ios'
-
-const PickerItemIOS = PickerIOS.Item;
+import DatabasePicker from './databasePicker'
+import {
+    InputDatePicker,
+    InputPicker
+} from 'panza'
 
 class WriterView extends Component {
     static defaultProps = {
@@ -23,9 +24,20 @@ class WriterView extends Component {
         this.state = {
             message: '',
             tag: this.props.tag,
-            date: this.props.date
+            date: this.props.date,
+            focusDate: false,
+            focusPicker: false,
         };
     }
+
+    dateTimeLocalOptions = {
+        weekday: "short",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+    };
 
     onPressButton = () => {
         const database = this.props.databases.credentials[this.props.databases.selected];
@@ -46,34 +58,65 @@ class WriterView extends Component {
                         Annotate!
                     </Text>
                 </TouchableHighlight>
+
+
+                <InputDatePicker
+                    hasFocus={this.state.showDate}
+                    label={'Time'}
+                    onRequestFocus={() => {
+                        this.setState({ showDate: true })
+                    }}
+                    onRequestClose={() => {
+                        this.setState({ showDate: false })
+                    }}
+                    onDateChange={(date) => {
+                        this.setState({ date })
+                    }}
+                    value={new Date(this.state.date).toLocaleDateString('en-US', this.dateTimeLocalOptions)}
+                    date={this.state.date}
+                    expanded={this.state.focusDate}
+                    onToggleExpansion={() => {
+                        this.setState({ focusDate: !this.state.focusDate })
+                    }}
+
+                />
+
+                <InputPicker
+                    expanded={this.state.focusPicker}
+                    value={this.state.tag}
+                    label='Tag'
+                    editable={this.state.editable}
+                    onToggleExpansion={() => {
+                    this.setState({ focusPicker: !this.state.focusPicker })
+                }}>
+                    <Picker
+                        prompt='Tag'
+                        style={{ width: 300 }}
+                        selectedValue={this.state.tag}
+                        onValueChange={(tag) => this.setState({tag})}>
+                        <Picker.Item
+                            key='manual'
+                            value='manual'
+                            label='manual'
+                        />
+                        <Picker.Item
+                            key='live-deploy'
+                            value='live-deploy'
+                            label='live-deploy'
+                        />
+                    </Picker>
+                </InputPicker>
+
+                <DatabasePicker/>
+
                 <Text style={{padding: 10, fontSize: 20}}>
                     Message
                 </Text>
+
                 <TextInput
                     style={{height: 20}}
                     placeholder="Type here to write the message of the annotation!"
                     onChangeText={(message) => this.setState({message})}
-                />
-                <DatabasePickerIOS/>
-                <PickerIOS
-                    selectedValue={this.state.tag}
-                    onValueChange={(tag) => this.setState({tag})}>
-                    <PickerItemIOS
-                        key='manual'
-                        value='manual'
-                        label='manual'
-                    />
-                    <PickerItemIOS
-                        key='live-deploy'
-                        value='live-deploy'
-                        label='live-deploy'
-                    />
-                </PickerIOS>
-                <DatePickerIOS
-                    date={this.state.date}
-                    mode="datetime"
-                    timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
-                    onDateChange={(date) => this.setState({date})}
                 />
             </ScrollView>
         );

@@ -28,9 +28,22 @@ export default function databases(state = initialState, action = {}) {
                 )
             };
         case types.DELETE_DATABASE:
+            // Checking for state of the selected index will be out of boundary
+            let selected = state.selected;
+
+            // If the very last database of the list is to deleted, the index needs to set to the second last database
+            if ((state.credentials.length - 1) === action.index) {
+                selected = state.credentials.length - 2;
+            }
+            // If the last database will be deleted the selected index needs to be set to undefined
+            if (state.credentials.length === 1) {
+                selected = undefined;
+            }
+
+
             return {
                 ...state,
-                selected: (state.credentials.length === 1) ? undefined : action.index,
+                selected: selected,
                 credentials: state.credentials.filter((credential, index) => index != action.index)
             };
 
