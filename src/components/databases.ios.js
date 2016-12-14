@@ -5,13 +5,14 @@ import * as databaseActions from '../actions/databaseActions';
 import {
     Text,
     TextInput,
-    View,
+    ScrollView,
     AlertIOS,
     TouchableHighlight
 } from 'react-native';
-import DatabasePickerIOS from './databasePicker.ios'
+import DatabasePicker from './databasePicker'
 import databaseIncompleteException from '../exceptions/databaseIncompleteException';
 import aliasAlreadyInUseException from '../exceptions/aliasAlreadyInUseException'
+import InputRow from './panza-migrations/inputRow';
 
 class DatabasesView extends Component {
     static defaultProps = {
@@ -27,20 +28,28 @@ class DatabasesView extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            index: this.props.index,
-            url: this.props.url,
-            alias: this.props.alias,
-            port: this.props.port,
-            name: this.props.name,
-            measurement: this.props.measurement,
-            username: this.props.username,
-            password: this.props.password
+        if(typeof props.databases.selected !== undefined) {
+            this.state = {
+                ...props.databases.credentials[props.databases.selected]
+            }
+        }
+
+        else {
+            this.state = {
+                index: this.props.index,
+                url: this.props.url,
+                alias: this.props.alias,
+                port: this.props.port,
+                name: this.props.name,
+                measurement: this.props.measurement,
+                username: this.props.username,
+                password: this.props.password
+            }
         };
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.databases.selected) {
+        if(typeof nextProps.databases.selected !== 'undefined') {
             const database = nextProps.databases.credentials[nextProps.databases.selected];
 
             this.setState ({
@@ -186,55 +195,45 @@ class DatabasesView extends Component {
 
     render() {
         return (
-            <View style={{padding: 10}}>
+            <ScrollView style={{padding: 10}}>
                 <Text style={{padding: 10, fontSize: 20}}>
                     Databases
                 </Text>
-                <DatabasePickerIOS/>
-                <TextInput
-                    style={{height: 20}}
-                    placeholder="Alias for the database"
-                    onChangeText={(alias) => this.setState({alias})}
-                    value={this.state.alias}
-                />
-                <TextInput
-                    style={{height: 20}}
-                    placeholder="url"
-                    onChangeText={(url) => this.setState({url})}
-                    value={this.state.url}
-                />
-                <TextInput
-                    style={{height: 20}}
-                    placeholder="port"
-                    onChangeText={(port) => this.setState({port})}
-                    value={this.state.port}
-                    keyboardType='numeric'
+                <DatabasePicker/>
 
-                />
-                <TextInput
-                    style={{height: 20}}
-                    placeholder="Database name"
-                    onChangeText={(name) => this.setState({name})}
+                <InputRow
+                    label='Alias'
+                    placeholder='Alias for the database'
+                    value={this.state.alias}
+                    onChangeText={(alias) => this.setState({ alias })} />
+                <InputRow
+                    label='Url'
+                    placeholder='url'
+                    value={this.state.url}
+                    onChangeText={(url) => this.setState({ url })} />
+                <InputRow
+                    label='Port'
+                    placeholder='8083'
+                    value={this.state.port}
+                    onChangeText={(port) => this.setState({ port })} />
+                <InputRow
+                    label='Database name'
                     value={this.state.name}
-                />
-                <TextInput
-                    style={{height: 20}}
-                    placeholder="Measurement"
-                    onChangeText={(measurement) => this.setState({measurement})}
+                    onChangeText={(name) => this.setState({ name })} />
+                <InputRow
+                    label='Measurement'
+                    placeholder='annotations'
                     value={this.state.measurement}
-                />
-                <TextInput
-                    style={{height: 20}}
-                    placeholder="Username"
-                    onChangeText={(username) => this.setState({username})}
+                    onChangeText={(measurement) => this.setState({ measurement })} />
+                <InputRow
+                    label='User'
                     value={this.state.username}
-                />
-                <TextInput
-                    style={{height: 20}}
-                    placeholder="Password"
-                    onChangeText={(password) => this.setState({password})}
+                    onChangeText={(username) => this.setState({ username })} />
+                <InputRow
+                    label='Password'
                     value={this.state.password}
-                />
+                    onChangeText={(password) => this.setState({ password })} />
+
                 <TouchableHighlight onPress={this.onPressAddButton}>
                     <Text style={{padding: 10, fontSize: 20}}>
                         (Test &) Save
@@ -247,7 +246,7 @@ class DatabasesView extends Component {
                         Add Dummy Data
                     </Text>
                 </TouchableHighlight>
-            </View>
+            </ScrollView>
         );
     }
 }

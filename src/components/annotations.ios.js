@@ -3,18 +3,18 @@ import { connect } from 'react-redux';
 import {
     ScrollView,
     Text,
-    ListView,
     TouchableHighlight
 } from 'react-native';
+
+import { TouchableRow } from 'panza';
 
 class AnnotationsView extends Component {
     static defaultProps = {};
 
     constructor(props) {
         super(props);
-        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            dataSource: ds.cloneWithRows([])
+            annotations: []
         };
     }
 
@@ -30,14 +30,9 @@ class AnnotationsView extends Component {
         .then((responseJson) => {
             console.log(responseJson.results[0].series[0].values);
 
-            const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
             this.setState({
-                dataSource: ds.cloneWithRows(
-                    responseJson.results[0].series[0].values
-                )
+                annotations: responseJson.results[0].series[0].values
             })
-
         })
         .catch((error) => {
             console.error(error)
@@ -46,10 +41,9 @@ class AnnotationsView extends Component {
 
     renderAnnotations = () => {
         return (
-            <ListView
-                dataSource={this.state.dataSource}
-                renderRow={(rowData) => {console.log(rowData); return(<Text>{rowData}</Text>)}}
-            />
+            <Text>
+                TEST
+            </Text>
         )
 
     };
@@ -62,7 +56,14 @@ class AnnotationsView extends Component {
                         Read
                     </Text>
                 </TouchableHighlight>
-                {this.renderAnnotations()}
+                {this.state.annotations.map((annotation, index) =>
+                    <TouchableRow
+                        onPress={noop}
+                        primaryText='Title'
+                        secondaryText={annotation[1]}
+                        value={annotation[2]}
+                    />
+                )}
             </ScrollView>
         );
     }
