@@ -5,10 +5,14 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "influx-setup": "docker run -d --name \"influx-annotator\" --volume=/Users/tomtom/var/influxdb:/data -p 8083:8083 -p 8086:8086 tutum/influxdb",
-    "influx-run": "docker restart \"influx-annotator\"",
-    "influx-stop": "docker stop \"influx-annotator\"",
-    "influx-purge": "docker kill \"influx-annotator\" && docker rm \"influx-annotator\" && rm -rf /Users/tomtom/var/influxdb"
+    "influx-setup": "docker run -d -p 8083:8083 -p 8086:8086 -e PRE_CREATE_DB=influx_annotator --expose 8090 --expose 8099 --name influxdb --volume=/Users/tomtom/var/influxdb:/data tutum/influxdb",
+    "influx-run": "docker restart influxdb",
+    "influx-stop": "docker stop influxdb",
+    "influx-purge": "docker kill influxdb && docker rm influxdb && rm -rf /Users/tomtom/var/influxdb",
+    "grafana-setup": "docker run -d -p 3000:3000 -e INFLUXDB_HOST=localhost -e INFLUXDB_PORT=8086 -e INFLUXDB_NAME=influx_annotator -e INFLUXDB_USER=root -e INFLUXDB_PASS=root --link influxdb:influxdb --name grafana grafana/grafana",
+    "grafana-run": "docker restart grafana",
+    "grafana-stop": "docker stop grafana",
+    "grafana-purge": "docker kill grafana && docker rm grafana"
   },
   "dependencies": {
     "panza": "^3.0.0-beta1",
