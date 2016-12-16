@@ -10,13 +10,17 @@ import {
 import DatabasePicker from './databasePicker'
 import {
     InputDatePicker,
+    InputToggle,
     InputPicker
 } from 'panza'
 
 class WriterView extends Component {
     static defaultProps = {
         date: new Date(),
-        tag: 'manual'
+        tag: 'manual',
+        useNow: true,
+        focusDate: false,
+        focusPicker: false
     };
 
     constructor(props) {
@@ -26,8 +30,9 @@ class WriterView extends Component {
             text: undefined,
             tag: this.props.tag,
             date: this.props.date,
-            focusDate: false,
-            focusPicker: false,
+            useNow: this.props.useNow,
+            focusDate: this.props.focusDate,
+            focusPicker: this.props.focusPicker
         };
     }
 
@@ -42,25 +47,23 @@ class WriterView extends Component {
 
     onPressButton = () => {
         const database = this.props.databases.credentials[this.props.databases.selected];
+        let body = database.measurement + ',type=' + this.state.tag + ' title="' + this.state.title + '",text="' + this.state.text + '"';
+        if (!this.state.useNow) {
+            body +=  ' + (this.state.date.getTime() * 1000000)';
+        }
         fetch(
             'http://' + database.url + ':' + database.port + '/write?db=' + database.name,
             {
                 method: 'POST',
-                body: database.measurement + ',type=' + this.state.tag + ' title="' + this.state.title + '",text="' + this.state.text + '" ' + (this.state.date.getTime() * 1000000)
+                body: body
             }
         );
     };
 
     render() {
-        return (
-            <ScrollView style={{padding: 10}}>
-                <TouchableHighlight onPress={this.onPressButton}>
-                    <Text style={{padding: 10, fontSize: 20}}>
-                        Annotate!
-                    </Text>
-                </TouchableHighlight>
-
-
+        var visibleDatePicker = null;
+        if (!this.state.useNow) {
+            visibleDatePicker = (
                 <InputDatePicker
                     hasFocus={this.state.showDate}
                     label={'Time'}
@@ -79,9 +82,23 @@ class WriterView extends Component {
                     onToggleExpansion={() => {
                         this.setState({ focusDate: !this.state.focusDate })
                     }}
-
                 />
+            );
+        }
 
+        return (
+            <ScrollView style={{padding: 10}}>
+                <TouchableHighlight onPress={this.onPressButton}>
+                    <Text style={{padding: 10, fontSize: 20}}>
+                        Annotate!
+                    </Text>
+                </TouchableHighlight>
+                <InputToggle
+                    value={this.state.useNow}
+                    onValueChange={(value) => this.setState({useNow: value})}
+                    label='Now?'
+                />
+                {visibleDatePicker}
                 <InputPicker
                     expanded={this.state.focusPicker}
                     value={this.state.tag}
