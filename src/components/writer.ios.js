@@ -126,7 +126,7 @@ class WriterView extends Component {
 
                 <TextInput
                     style={{height: 20}}
-                    placeholder="Type here to write the message of the annotation"
+                    placeholder="Type here to write the text of the annotation"
                     onChangeText={(text) => this.setState({text})}
                 />
             </ScrollView>
