@@ -22,7 +22,8 @@ class WriterView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            message: '',
+            title: undefined,
+            text: undefined,
             tag: this.props.tag,
             date: this.props.date,
             focusDate: false,
@@ -45,7 +46,7 @@ class WriterView extends Component {
             'http://' + database.url + ':' + database.port + '/write?db=' + database.name,
             {
                 method: 'POST',
-                body: database.measurement + ',type=' + this.state.tag + ' message="' + this.state.message + '" ' + (this.state.date.getTime() * 1000000)
+                body: database.measurement + ',type=' + this.state.tag + ' title="' + this.state.title + '",text="' + this.state.text + '" ' + (this.state.date.getTime() * 1000000)
             }
         );
     };
@@ -110,13 +111,23 @@ class WriterView extends Component {
                 <DatabasePicker/>
 
                 <Text style={{padding: 10, fontSize: 20}}>
+                    Title
+                </Text>
+
+                <TextInput
+                    style={{height: 20}}
+                    placeholder="Type here to write the title"
+                    onChangeText={(title) => this.setState({title})}
+                />
+
+                <Text style={{padding: 10, fontSize: 20}}>
                     Message
                 </Text>
 
                 <TextInput
                     style={{height: 20}}
-                    placeholder="Type here to write the message of the annotation!"
-                    onChangeText={(message) => this.setState({message})}
+                    placeholder="Type here to write the message of the annotation"
+                    onChangeText={(text) => this.setState({text})}
                 />
             </ScrollView>
         );
