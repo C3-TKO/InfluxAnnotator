@@ -61,31 +61,6 @@ class WriterView extends Component {
     };
 
     render() {
-        var visibleDatePicker = null;
-        if (!this.state.useNow) {
-            visibleDatePicker = (
-                <InputDatePicker
-                    hasFocus={this.state.showDate}
-                    label={'Time'}
-                    onRequestFocus={() => {
-                        this.setState({ showDate: true })
-                    }}
-                    onRequestClose={() => {
-                        this.setState({ showDate: false })
-                    }}
-                    onDateChange={(date) => {
-                        this.setState({ date })
-                    }}
-                    value={new Date(this.state.date).toLocaleDateString('en-US', this.dateTimeLocalOptions)}
-                    date={this.state.date}
-                    expanded={this.state.focusDate}
-                    onToggleExpansion={() => {
-                        this.setState({ focusDate: !this.state.focusDate })
-                    }}
-                />
-            );
-        }
-
         return (
             <ScrollView style={{padding: 10}}>
                 <TouchableHighlight onPress={this.onPressButton}>
@@ -93,39 +68,63 @@ class WriterView extends Component {
                         Annotate!
                     </Text>
                 </TouchableHighlight>
-                <InputToggle
-                    value={this.state.useNow}
-                    onValueChange={(value) => this.setState({useNow: value})}
-                    label='Now?'
-                />
-                {visibleDatePicker}
-                <InputPicker
-                    expanded={this.state.focusPicker}
-                    value={this.state.tag}
-                    label='Tag'
-                    editable={this.state.editable}
-                    onToggleExpansion={() => {
-                    this.setState({ focusPicker: !this.state.focusPicker })
-                }}>
-                    <Picker
-                        prompt='Tag'
-                        style={{ width: 300 }}
-                        selectedValue={this.state.tag}
-                        onValueChange={(tag) => this.setState({tag})}>
-                        <Picker.Item
-                            key='manual'
-                            value='manual'
-                            label='manual'
-                        />
-                        <Picker.Item
-                            key='live-deploy'
-                            value='live-deploy'
-                            label='live-deploy'
-                        />
-                    </Picker>
-                </InputPicker>
+                <InputGroup>
+                    <InputToggle
+                        value={this.state.useNow}
+                        onValueChange={(value) => this.setState({useNow: value})}
+                        label='Now?'
+                    />
 
-                <DatabasePicker/>
+                    <InputDatePicker
+                        editable={!this.state.useNow}
+                        hasFocus={this.state.showDate}
+                        label={'Time'}
+                        onRequestFocus={() => {
+                        this.setState({ showDate: true })
+                    }}
+                        onRequestClose={() => {
+                        this.setState({ showDate: false })
+                    }}
+                        onDateChange={(date) => {
+                        this.setState({ date })
+                    }}
+                        value={new Date(this.state.date).toLocaleDateString('en-US', this.dateTimeLocalOptions)}
+                        date={this.state.date}
+                        expanded={this.state.focusDate}
+                        onToggleExpansion={() => {
+                        this.setState({ focusDate: !this.state.focusDate })
+                    }}
+                    />
+
+                    <InputPicker
+                        expanded={this.state.focusPicker}
+                        value={this.state.tag}
+                        label='Tag'
+                        editable={this.state.editable}
+                        onToggleExpansion={() => {
+                        this.setState({ focusPicker: !this.state.focusPicker })
+                    }}>
+                        <Picker
+                            prompt='Tag'
+                            style={{ width: 300 }}
+                            selectedValue={this.state.tag}
+                            onValueChange={(tag) => this.setState({tag})}>
+                            <Picker.Item
+                                key='manual'
+                                value='manual'
+                                label='manual'
+                            />
+                            <Picker.Item
+                                key='live-deploy'
+                                value='live-deploy'
+                                label='live-deploy'
+                            />
+                        </Picker>
+                    </InputPicker>
+
+                    <DatabasePicker/>
+
+                </InputGroup>
 
                 <Text style={{padding: 10, fontSize: 20}}>
                     Title
@@ -137,6 +136,7 @@ class WriterView extends Component {
                     onChangeText={(title) => this.setState({title})}
                 />
 
+
                 <Text style={{padding: 10, fontSize: 20}}>
                     Message
                 </Text>
@@ -146,6 +146,18 @@ class WriterView extends Component {
                     placeholder="Type here to write the text of the annotation"
                     onChangeText={(text) => this.setState({text})}
                 />
+
+                <InputGroup>
+                    <RemovableInput
+                        label='Tag'
+                        removable
+                        onRemove={noop}
+                        onSelectLabel={noop}
+                        onChangeText={() => {}}
+                        value='TEST'
+                    />
+
+                </InputGroup>
             </ScrollView>
         );
     }
