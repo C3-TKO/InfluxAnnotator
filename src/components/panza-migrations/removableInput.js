@@ -231,8 +231,8 @@ class RemovableInput extends React.Component {
                             <RemoveButton
                                 style={{ marginRight: 16 }}
                                 onPress={() => {
-                  this.setState({ showingOptions: true })
-                }}
+                                  this.setState({ showingOptions: true })
+                                }}
                             />
                         )}
 
@@ -250,8 +250,9 @@ class RemovableInput extends React.Component {
                                     disabled={!this.props.editable}
                                     placeholder={this.props.placeholder}
                                     style={[
-                    styles.input,
-                    (this.props.vertical || !this.props.label) && { paddingLeft: 0 }]}
+                                        styles.input,
+                                        (this.props.vertical || !this.props.label) && { paddingLeft: 0 }
+                                        ]}
                                     value={this.props.value}
                                     onChangeText={this.props.onChangeText}
                                 />
