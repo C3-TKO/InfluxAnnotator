@@ -12,7 +12,10 @@ import {
 import DatabasePicker from './databasePicker'
 import databaseIncompleteException from '../exceptions/databaseIncompleteException';
 import aliasAlreadyInUseException from '../exceptions/aliasAlreadyInUseException'
-import { InputGroup } from 'panza';
+import {
+    SectionHeader,
+    InputGroup
+} from 'panza';
 import InputRow from './panza-migrations/inputRow';
 
 class DatabasesView extends Component {
@@ -196,10 +199,10 @@ class DatabasesView extends Component {
 
     render() {
         return (
-            <ScrollView style={{padding: 10}}>
-                <Text style={{padding: 10, fontSize: 20}}>
-                    Databases
-                </Text>
+            <ScrollView>
+                <SectionHeader>
+                    DATABASE CONFIGURATIONS
+                </SectionHeader>
                 <InputGroup>
                     <DatabasePicker/>
 
