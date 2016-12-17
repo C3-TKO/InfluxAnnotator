@@ -5,14 +5,34 @@ import {
     TextInput,
     ScrollView,
     Picker,
+    TouchableInput,
     TouchableHighlight
 } from 'react-native';
 import DatabasePicker from './databasePicker'
 import {
     InputDatePicker,
     InputToggle,
-    InputPicker
+    InputPicker,
+    InputGroup,
+    InputAddRow,
+    SectionHeader
 } from 'panza'
+
+import RemovableInput from './panza-migrations/removableInput';
+
+const GreenPlusIcon = () => (
+    <Base
+        backgroundColor='green'
+        mr={2}
+        style={styles.iconButton}
+    >
+        <Icon
+            name='md-add'
+            size={15}
+            color='white'
+        />
+    </Base>
+);
 
 class WriterView extends Component {
     static defaultProps = {
@@ -20,7 +40,8 @@ class WriterView extends Component {
         tag: 'manual',
         useNow: true,
         focusDate: false,
-        focusPicker: false
+        focusPicker: false,
+        tags: []
     };
 
     constructor(props) {
@@ -29,6 +50,7 @@ class WriterView extends Component {
             title: undefined,
             text: undefined,
             tag: this.props.tag,
+            tags: this.props.tags,
             date: this.props.date,
             useNow: this.props.useNow,
             focusDate: this.props.focusDate,
@@ -59,6 +81,10 @@ class WriterView extends Component {
             }
         );
     };
+
+    onRemoveTag = (indexOfRemovedTag) => {
+        this.setState({tags: this.state.tags.filter((tag, index) => index != indexOfRemovedTag)})
+    }
 
     render() {
         return (
@@ -147,14 +173,23 @@ class WriterView extends Component {
                     onChangeText={(text) => this.setState({text})}
                 />
 
+                <SectionHeader>TAGS (OPTIONAL)</SectionHeader>
                 <InputGroup>
-                    <RemovableInput
-                        label='Tag'
-                        removable
-                        onRemove={noop}
-                        onSelectLabel={noop}
-                        onChangeText={() => {}}
-                        value='TEST'
+                    {this.state.tags.map((tag, index) =>
+                        <RemovableInput
+                            key={index}
+                            removable
+                            onRequestRemove={() => this.onRemoveTag(index)}
+                            onSelectLabel={noop}
+                            onPress={(index) => alert(tag)}
+                            onChangeText={() => {}}
+                            value={tag}
+                        />
+                    )}
+
+                    <InputAddRow
+                        label='Add a tag'
+                        onPress={() => this.setState({ tags: [...this.state.tags, 'New tag']})}
                     />
 
                 </InputGroup>
