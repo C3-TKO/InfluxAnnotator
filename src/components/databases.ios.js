@@ -12,6 +12,7 @@ import {
 import DatabasePicker from './databasePicker'
 import databaseIncompleteException from '../exceptions/databaseIncompleteException';
 import aliasAlreadyInUseException from '../exceptions/aliasAlreadyInUseException'
+import { InputGroup } from 'panza';
 import InputRow from './panza-migrations/inputRow';
 
 class DatabasesView extends Component {
@@ -199,40 +200,42 @@ class DatabasesView extends Component {
                 <Text style={{padding: 10, fontSize: 20}}>
                     Databases
                 </Text>
-                <DatabasePicker/>
+                <InputGroup>
+                    <DatabasePicker/>
 
-                <InputRow
-                    label='Alias'
-                    placeholder='Alias for the database'
-                    value={this.state.alias}
-                    onChangeText={(alias) => this.setState({ alias })} />
-                <InputRow
-                    label='Url'
-                    placeholder='url'
-                    value={this.state.url}
-                    onChangeText={(url) => this.setState({ url })} />
-                <InputRow
-                    label='Port'
-                    placeholder='8083'
-                    value={this.state.port}
-                    onChangeText={(port) => this.setState({ port })} />
-                <InputRow
-                    label='Database name'
-                    value={this.state.name}
-                    onChangeText={(name) => this.setState({ name })} />
-                <InputRow
-                    label='Measurement'
-                    placeholder='annotations'
-                    value={this.state.measurement}
-                    onChangeText={(measurement) => this.setState({ measurement })} />
-                <InputRow
-                    label='User'
-                    value={this.state.username}
-                    onChangeText={(username) => this.setState({ username })} />
-                <InputRow
-                    label='Password'
-                    value={this.state.password}
-                    onChangeText={(password) => this.setState({ password })} />
+                    <InputRow
+                        label='Alias'
+                        placeholder='Alias for the database'
+                        value={this.state.alias}
+                        onChangeText={(alias) => this.setState({ alias })} />
+                    <InputRow
+                        label='Url'
+                        placeholder='url'
+                        value={this.state.url}
+                        onChangeText={(url) => this.setState({ url })} />
+                    <InputRow
+                        label='Port'
+                        placeholder='8083'
+                        value={this.state.port}
+                        onChangeText={(port) => this.setState({ port })} />
+                    <InputRow
+                        label='Database name'
+                        value={this.state.name}
+                        onChangeText={(name) => this.setState({ name })} />
+                    <InputRow
+                        label='Measurement'
+                        placeholder='annotations'
+                        value={this.state.measurement}
+                        onChangeText={(measurement) => this.setState({ measurement })} />
+                    <InputRow
+                        label='User'
+                        value={this.state.username}
+                        onChangeText={(username) => this.setState({ username })} />
+                    <InputRow
+                        label='Password'
+                        value={this.state.password}
+                        onChangeText={(password) => this.setState({ password })} />
+                </InputGroup>
 
                 <TouchableHighlight onPress={this.onPressAddButton}>
                     <Text style={{padding: 10, fontSize: 20}}>
