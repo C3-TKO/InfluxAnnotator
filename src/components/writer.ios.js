@@ -182,6 +182,10 @@ class WriterView extends Component {
 
                 <SectionHeader>TAGS (OPTIONAL)</SectionHeader>
                 <InputGroup>
+                    <InputAddRow
+                        label='Add a tag'
+                        onPress={() => this.setState({ tags: ['New-tag', ...this.state.tags]})}
+                    />
                     {this.state.tags.map((tag, index) =>
                         <RemovableInput
                             key={index}
@@ -193,12 +197,6 @@ class WriterView extends Component {
                             value={tag}
                         />
                     )}
-
-                    <InputAddRow
-                        label='Add a tag'
-                        onPress={() => this.setState({ tags: [...this.state.tags, 'New-tag']})}
-                    />
-
                 </InputGroup>
             </ScrollView>
         );
