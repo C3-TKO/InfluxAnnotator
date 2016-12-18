@@ -28,8 +28,6 @@ class AnnotationsView extends Component {
         )
         .then((response) => response.json())
         .then((responseJson) => {
-            console.log(responseJson.results[0].series[0].values);
-
             this.setState({
                 annotations: responseJson.results[0].series[0].values
             })

@@ -70,6 +70,9 @@ class WriterView extends Component {
     onPressButton = () => {
         const database = this.props.databases.credentials[this.props.databases.selected];
         let body = database.measurement + ',type=' + this.state.tag + ' title="' + this.state.title + '",text="' + this.state.text + '"';
+        if (this.state.tags.length > 0) {
+            body += ',tags="' + this.state.tags.reduce((a, b) => a + ' ' + b) + '"';
+        }
         if (!this.state.useNow) {
             body +=  ' + (this.state.date.getTime() * 1000000)';
         }
@@ -84,6 +87,10 @@ class WriterView extends Component {
 
     onRemoveTag = (indexOfRemovedTag) => {
         this.setState({tags: this.state.tags.filter((tag, index) => index != indexOfRemovedTag)})
+    }
+
+    onChangeTag = (changedTag, indexOfChangedTag) => {
+        this.setState({tags: this.state.tags.map((tag, index) => index === indexOfChangedTag ? changedTag : tag)});
     }
 
     render() {
@@ -181,8 +188,8 @@ class WriterView extends Component {
                             removable
                             onRequestRemove={() => this.onRemoveTag(index)}
                             onSelectLabel={noop}
-                            onPress={(index) => alert(tag)}
-                            onChangeText={() => {}}
+                            onPress={noop}
+                            onChangeText={(text) => this.onChangeTag(text, index)}
                             value={tag}
                         />
                     )}
