@@ -196,7 +196,7 @@ class WriterView extends Component {
 
                     <InputAddRow
                         label='Add a tag'
-                        onPress={() => this.setState({ tags: [...this.state.tags, 'New tag']})}
+                        onPress={() => this.setState({ tags: [...this.state.tags, 'New-tag']})}
                     />
 
                 </InputGroup>
