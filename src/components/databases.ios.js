@@ -14,7 +14,10 @@ import databaseIncompleteException from '../exceptions/databaseIncompleteExcepti
 import aliasAlreadyInUseException from '../exceptions/aliasAlreadyInUseException'
 import {
     SectionHeader,
-    InputGroup
+    InputGroup,
+    Base,
+    ButtonGroup,
+    Button
 } from 'panza';
 import InputRow from './panza-migrations/inputRow';
 
@@ -176,11 +179,13 @@ class DatabasesView extends Component {
     renderEditButton = () => {
         if(typeof this.props.databases.selected !== 'undefined') {
             return (
-                <TouchableHighlight onPress={this.onPressEditButton}>
-                    <Text style={{padding: 10, fontSize: 20}}>
-                        Edit {this.props.databases.credentials[this.props.databases.selected].alias}
-                    </Text>
-                </TouchableHighlight>
+                <Button
+                    primary
+                    onPress={this.onPressEditButton}
+                    mt={1}
+                >
+                    Edit
+                </Button>
             )
         }
     }
@@ -188,18 +193,20 @@ class DatabasesView extends Component {
     renderDeleteButton = () => {
         if(this.props.databases.credentials.length > 0) {
             return (
-                <TouchableHighlight onPress={this.onPressDeleteButton}>
-                    <Text style={{padding: 10, fontSize: 20}}>
-                        Delete
-                    </Text>
-                </TouchableHighlight>
+                <Button
+                    primary
+                    onPress={this.onPressDeleteButton}
+                    mt={1}
+                >
+                    Delete
+                </Button>
             )
         }
     }
 
     render() {
         return (
-            <ScrollView>
+            <ScrollView style={{backgroundColor: '#fafafa' }}>
                 <SectionHeader>
                     DATABASE CONFIGURATIONS
                 </SectionHeader>
@@ -240,18 +247,25 @@ class DatabasesView extends Component {
                         onChangeText={(password) => this.setState({ password })} />
                 </InputGroup>
 
-                <TouchableHighlight onPress={this.onPressAddButton}>
-                    <Text style={{padding: 10, fontSize: 20}}>
-                        (Test &) Save
-                    </Text>
-                </TouchableHighlight>
-                {this.renderEditButton()}
-                {this.renderDeleteButton()}
-                <TouchableHighlight onPress={this.onPressAddDummyDataButton}>
-                    <Text style={{padding: 10, fontSize: 20}}>
-                        Add Dummy Data
-                    </Text>
-                </TouchableHighlight>
+                <Base mt={2} p={2}>
+                    <ButtonGroup mt={2} vertical>
+                        <Button
+                            primary
+                            onPress={this.onPressAddButton}
+                        >
+                            Save as new database
+                        </Button>
+                        {this.renderEditButton()}
+                        {this.renderDeleteButton()}
+                        <Button
+                            transparent
+                            mt={1}
+                            onPress={this.onPressAddDummyDataButton}
+                        >
+                            Add dummy data
+                        </Button>
+                    </ButtonGroup>
+                </Base>
             </ScrollView>
         );
     }
