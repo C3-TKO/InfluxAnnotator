@@ -44,11 +44,12 @@ class AnnotationsView extends Component {
             </Text>
         )
 
+
     };
 
     render() {
         return (
-            <ScrollView>
+            <ScrollView style={{backgroundColor: '#fafafa' }}>
                 <TouchableHighlight onPress={this.loadAnnotations}>
                     <Text style={{padding: 10, fontSize: 20}}>
                         Read

@@ -95,7 +95,7 @@ class WriterView extends Component {
 
     render() {
         return (
-            <ScrollView style={{padding: 10}}>
+            <ScrollView style={{backgroundColor: '#fafafa', padding: 10 }}>
                 <TouchableHighlight onPress={this.onPressButton}>
                     <Text style={{padding: 10, fontSize: 20}}>
                         Annotate!
