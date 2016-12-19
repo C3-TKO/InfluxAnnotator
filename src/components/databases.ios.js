@@ -248,34 +248,41 @@ class DatabasesView extends Component {
                     <DatabasePicker/>
 
                     <InputRow
+                        style={{backgroundColor: '#ffffff'}}
                         label='Alias'
                         placeholder='Alias for the database'
                         value={this.state.alias}
                         onChangeText={(alias) => this.setState({ alias })} />
                     <InputRow
+                        style={{backgroundColor: '#ffffff'}}
                         label='Url'
                         placeholder='url'
                         value={this.state.url}
                         onChangeText={(url) => this.setState({ url })} />
                     <InputRow
+                        style={{backgroundColor: '#ffffff'}}
                         label='Port'
                         placeholder='8083'
                         value={this.state.port}
                         onChangeText={(port) => this.setState({ port })} />
                     <InputRow
+                        style={{backgroundColor: '#ffffff'}}
                         label='Database name'
                         value={this.state.name}
                         onChangeText={(name) => this.setState({ name })} />
                     <InputRow
+                        style={{backgroundColor: '#ffffff'}}
                         label='Measurement'
                         placeholder='annotations'
                         value={this.state.measurement}
                         onChangeText={(measurement) => this.setState({ measurement })} />
                     <InputRow
+                        style={{backgroundColor: '#ffffff'}}
                         label='User'
                         value={this.state.username}
                         onChangeText={(username) => this.setState({ username })} />
                     <InputRow
+                        style={{backgroundColor: '#ffffff'}}
                         label='Password'
                         value={this.state.password}
                         onChangeText={(password) => this.setState({ password })} />
