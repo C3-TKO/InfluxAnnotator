@@ -176,32 +176,66 @@ class DatabasesView extends Component {
         )
     }
 
-    renderEditButton = () => {
+    saveAsButton = (
+        <Button
+            primary
+            onPress={this.onPressAddButton}
+        >
+            Save as new database
+        </Button>
+    );
+
+    editButton = (
+        <Button
+            primary
+            onPress={this.onPressEditButton}
+            mt={1}
+        >
+            Edit
+        </Button>
+    );
+
+    deleteButton = (
+        <Button
+            negative
+            onPress={this.onPressDeleteButton}
+            mt={1}
+        >
+            Delete
+        </Button>
+    )
+
+    addDummyDataButton = (
+        <Button
+            mt={1}
+            onPress={this.onPressAddDummyDataButton}
+        >
+            Add dummy data
+        </Button>
+    );
+
+    renderButtons = () => {
         if(typeof this.props.databases.selected !== 'undefined') {
             return (
-                <Button
-                    primary
-                    onPress={this.onPressEditButton}
-                    mt={1}
-                >
-                    Edit
-                </Button>
+                <Base mt={2} p={2}>
+                    <ButtonGroup mt={2} vertical>
+                        {this.saveAsButton}
+                        {this.editButton}
+                        {this.deleteButton}
+                        {this.addDummyDataButton}
+                    </ButtonGroup>
+                </Base>
             )
         }
-    }
 
-    renderDeleteButton = () => {
-        if(this.props.databases.credentials.length > 0) {
-            return (
-                <Button
-                    primary
-                    onPress={this.onPressDeleteButton}
-                    mt={1}
-                >
-                    Delete
-                </Button>
-            )
-        }
+        return (
+            <Base mt={2} p={2}>
+                <ButtonGroup mt={2} vertical>
+                    {this.saveAsButton}
+                    {this.addDummyDataButton}
+                </ButtonGroup>
+            </Base>
+        )
     }
 
     render() {
@@ -247,25 +281,7 @@ class DatabasesView extends Component {
                         onChangeText={(password) => this.setState({ password })} />
                 </InputGroup>
 
-                <Base mt={2} p={2}>
-                    <ButtonGroup mt={2} vertical>
-                        <Button
-                            primary
-                            onPress={this.onPressAddButton}
-                        >
-                            Save as new database
-                        </Button>
-                        {this.renderEditButton()}
-                        {this.renderDeleteButton()}
-                        <Button
-                            transparent
-                            mt={1}
-                            onPress={this.onPressAddDummyDataButton}
-                        >
-                            Add dummy data
-                        </Button>
-                    </ButtonGroup>
-                </Base>
+                {this.renderButtons()}
             </ScrollView>
         );
     }
