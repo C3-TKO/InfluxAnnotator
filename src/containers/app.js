@@ -20,9 +20,8 @@ const store = createStore(
     )
 )
 
-persistStore(store, {storage: AsyncStorage}, () => {
-//    alert('restored')
-});
+persistStore(store, {storage: AsyncStorage}, () => {});
+//persistStore(store, {storage: AsyncStorage}, () => {}).purge();
 
 export default class App extends Component {
     render() {
