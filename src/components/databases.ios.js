@@ -10,6 +10,7 @@ import {
     TouchableHighlight
 } from 'react-native';
 import DatabasePicker from './databasePicker'
+import databaseConnectionException from '../exceptions/databaseConnectionException';
 import databaseIncompleteException from '../exceptions/databaseIncompleteException';
 import aliasAlreadyInUseException from '../exceptions/aliasAlreadyInUseException'
 import {
@@ -104,13 +105,21 @@ class DatabasesView extends Component {
         }
     }
 
+
     testCredentials = () => {
-        fetch(
-            'http://' + this.state.url + ':' + this.state.port + '/query?db=' + this.state.name + '&q=SELECT%20*%20FROM%20' + this.state.measurement + '%20LIMIT%201',
-            {
-                method: 'GET'
-            }
-        );
+        this.getMeasurementsFromInfluxDB('http://' + this.state.url + ':' + this.state.port + '/query?db=' + this.state.name + '&q=SHOW%20MEASUREMENTS');
+    }
+
+
+    async getMeasurementsFromInfluxDB(url) {
+        try {
+            const response = await fetch(url);
+            const json = await response.json();
+        } catch(error) {
+            //console.error(error);
+            console.log(error);
+            throw new databaseConnectionException(error);
+        }
     }
 
     writeDatabase = (index) => {
@@ -119,9 +128,17 @@ class DatabasesView extends Component {
         try {
             this.checkCredentialsCompleteness();
             //this.testCredentials();
+            this.getMeasurementsFromInfluxDB('http://' + this.state.url + ':' + this.state.port + '/query?db=' + this.state.name + '&q=SHOW%20MEASUREMENTS');
             this.checkAliasAlreadyExisting(index);
         }
         catch (e) {
+            if (e instanceof databaseConnectionException) {
+                AlertIOS.alert(
+                    'Can not connect to database',
+                    e.message
+                );
+                return
+            }
             if (e instanceof databaseIncompleteException) {
                 AlertIOS.alert(
                     'Database incomplete',
