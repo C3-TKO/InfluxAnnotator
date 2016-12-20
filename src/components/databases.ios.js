@@ -10,7 +10,6 @@ import {
     TouchableHighlight
 } from 'react-native';
 import DatabasePicker from './databasePicker'
-import databaseConnectionException from '../exceptions/databaseConnectionException';
 import databaseIncompleteException from '../exceptions/databaseIncompleteException';
 import aliasAlreadyInUseException from '../exceptions/aliasAlreadyInUseException'
 import {
@@ -116,9 +115,11 @@ class DatabasesView extends Component {
             const response = await fetch(url);
             const json = await response.json();
         } catch(error) {
-            //console.error(error);
-            console.log(error);
-            throw new databaseConnectionException(error);
+            AlertIOS.alert(
+                'Database connection failed',
+                'Can not connect to database - reason: ' + error.message + '. Please check the connection parameters.'
+            );
+            return
         }
     }
 
@@ -132,13 +133,6 @@ class DatabasesView extends Component {
             this.checkAliasAlreadyExisting(index);
         }
         catch (e) {
-            if (e instanceof databaseConnectionException) {
-                AlertIOS.alert(
-                    'Can not connect to database',
-                    e.message
-                );
-                return
-            }
             if (e instanceof databaseIncompleteException) {
                 AlertIOS.alert(
                     'Database incomplete',
