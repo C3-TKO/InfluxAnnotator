@@ -104,19 +104,24 @@ class DatabasesView extends Component {
         }
     }
 
-
     testCredentials = () => {
-        this.getMeasurementsFromInfluxDB('http://' + this.state.url + ':' + this.state.port + '/query?db=' + this.state.name + '&q=SHOW%20MEASUREMENTS');
+        this.checkDatabaseConnection(this.getCheckDatabaseUrl());
     }
 
 
-    async getMeasurementsFromInfluxDB(url) {
+    getCheckDatabaseUrl = () => {
+        return 'http://' + this.state.url + ':' + this.state.port + '/query?db=' + this.state.name + '&q=SHOW%20MEASUREMENTS';
+    }
+
+
+    async checkDatabaseConnection(url) {
         try {
             const response = await fetch(url);
             const json = await response.json();
+            console.log(json);
         } catch(error) {
             AlertIOS.alert(
-                'Database connection failed',
+                'Connection failed',
                 'Can not connect to database - reason: ' + error.message + '. Please check the connection parameters.'
             );
             return
@@ -128,7 +133,7 @@ class DatabasesView extends Component {
 
         try {
             this.checkCredentialsCompleteness();
-            //this.testCredentials();
+            this.checkDatabaseConnection(this.getCheckDatabaseUrl());
             this.getMeasurementsFromInfluxDB('http://' + this.state.url + ':' + this.state.port + '/query?db=' + this.state.name + '&q=SHOW%20MEASUREMENTS');
             this.checkAliasAlreadyExisting(index);
         }
@@ -230,6 +235,13 @@ class DatabasesView extends Component {
             return (
                 <Base mt={2} p={2}>
                     <ButtonGroup mt={2} vertical>
+                        <Button mb={1}
+                            primary
+                            onPress={this.testCredentials}
+                        >
+                            Test db
+                        </Button>
+
                         {this.saveAsButton}
                         {this.editButton}
                         {this.deleteButton}
