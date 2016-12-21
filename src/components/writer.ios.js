@@ -71,7 +71,7 @@ class WriterView extends Component {
 
     onPressButton = () => {
         const database = this.props.databases.credentials[this.props.databases.selected];
-        let body = database.measurement + ',type=' + this.state.tag + ' title="' + this.state.title + '",text="' + this.state.text + '"';
+        let body = database.measurement + ' title="' + this.state.title + '",text="' + this.state.text + '"';
         if (this.state.tags.length > 0) {
             body += ',tags="' + this.state.tags.reduce((a, b) => a + ' ' + b) + '"';
         }
@@ -148,33 +148,6 @@ class WriterView extends Component {
                         this.setState({ focusDate: !this.state.focusDate })
                     }}
                     />
-
-                    <InputPicker
-                        expanded={this.state.focusPicker}
-                        value={this.state.tag}
-                        label='Tag'
-                        editable={this.state.editable}
-                        onToggleExpansion={() => {
-                        this.setState({ focusPicker: !this.state.focusPicker })
-                    }}>
-                        <Picker
-                            prompt='Tag'
-                            style={{ width: 300 }}
-                            selectedValue={this.state.tag}
-                            onValueChange={(tag) => this.setState({tag})}>
-                            <Picker.Item
-                                key='manual'
-                                value='manual'
-                                label='manual'
-                            />
-                            <Picker.Item
-                                key='live-deploy'
-                                value='live-deploy'
-                                label='live-deploy'
-                            />
-                        </Picker>
-                    </InputPicker>
-
                 </InputGroup>
 
                 <SectionHeader>TAGS (OPTIONAL)</SectionHeader>
