@@ -10,8 +10,8 @@ import {
     TouchableHighlight
 } from 'react-native';
 import DatabasePicker from './databasePicker'
-import databaseIncompleteException from '../exceptions/databaseIncompleteException';
-import aliasAlreadyInUseException from '../exceptions/aliasAlreadyInUseException'
+import DatabaseIncompleteException from '../exceptions/databaseIncompleteException';
+import AliasAlreadyInUseException from '../exceptions/aliasAlreadyInUseException'
 import {
     SectionHeader,
     InputGroup,
@@ -87,7 +87,7 @@ class DatabasesView extends Component {
     checkAliasAlreadyExisting = (indexOfCurrentlyEditedDatabase) => {
         this.props.databases.credentials.map((database, index) => {
             if (database.alias == this.state.alias && indexOfCurrentlyEditedDatabase !== index) {
-                throw new aliasAlreadyInUseException(this.state.alias, index);
+                throw new AliasAlreadyInUseException(this.state.alias, index);
             }
         })
     }
@@ -98,7 +98,7 @@ class DatabasesView extends Component {
         for(var property in database) {
             if(database.hasOwnProperty(property)) {
                 if (typeof database[property] === 'undefined') {
-                    throw new databaseIncompleteException(property);
+                    throw new DatabaseIncompleteException(property);
                 }
             }
         }
@@ -120,11 +120,7 @@ class DatabasesView extends Component {
             const json = await response.json();
             console.log(json);
         } catch(error) {
-            AlertIOS.alert(
-                'Connection failed',
-                'Can not connect to database - reason: ' + error.message + '. Please check the connection parameters.'
-            );
-            return
+            throw error;
         }
     }
 
@@ -133,19 +129,16 @@ class DatabasesView extends Component {
 
         try {
             this.checkCredentialsCompleteness();
-            this.checkDatabaseConnection(this.getCheckDatabaseUrl());
-            this.getMeasurementsFromInfluxDB('http://' + this.state.url + ':' + this.state.port + '/query?db=' + this.state.name + '&q=SHOW%20MEASUREMENTS');
             this.checkAliasAlreadyExisting(index);
         }
         catch (e) {
-            if (e instanceof databaseIncompleteException) {
+            if (e instanceof DatabaseIncompleteException) {
                 AlertIOS.alert(
                     'Database incomplete',
                     e.message
                 );
-                return
             }
-            if (e instanceof aliasAlreadyInUseException) {
+            if (e instanceof AliasAlreadyInUseException) {
                 AlertIOS.alert(
                     'Conflict',
                     e.message,
@@ -154,9 +147,18 @@ class DatabasesView extends Component {
                         {text: 'Overwrite', onPress: () => this.props.actions.editDatabase(e.index, database), style: 'destructive'}
                     ]
                 );
-                return
             }
         }
+
+        this.checkDatabaseConnection(this.getCheckDatabaseUrl()).then(function(result) {
+            return true
+        }, function(error) {
+            AlertIOS.alert(
+                'Connection failed',
+                'Can not connect to database - reason: ' + error.toString()  + '. Please check the connection parameters.'
+            );
+            return false
+        });
 
         if (typeof index === 'undefined') {
             this.props.actions.addDatabase(database);
