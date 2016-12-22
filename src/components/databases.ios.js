@@ -104,19 +104,9 @@ class DatabasesView extends Component {
         }
     }
 
-    testCredentials = () => {
-        this.checkDatabaseConnection(this.getCheckDatabaseUrl());
-    }
-
-
-    getCheckDatabaseUrl = () => {
-        return 'http://' + this.state.url + ':' + this.state.port + '/query?db=' + this.state.name + '&q=SHOW%20MEASUREMENTS';
-    }
-
-
-    async checkDatabaseConnection(url) {
+    checkDatabaseConnection = async () => {
         try {
-            const response = await fetch(url);
+            const response = await fetch('http://' + this.state.url + ':' + this.state.port + '/query?db=' + this.state.name + '&q=SHOW%20MEASUREMENTS');
             const json = await response.json();
             console.log(json);
         } catch(error) {
@@ -150,7 +140,7 @@ class DatabasesView extends Component {
             }
         }
 
-        this.checkDatabaseConnection(this.getCheckDatabaseUrl()).then(function(result) {
+        this.checkDatabaseConnection().then(function(result) {
             return true
         }, function(error) {
             AlertIOS.alert(
@@ -237,13 +227,6 @@ class DatabasesView extends Component {
             return (
                 <Base mt={2} p={2}>
                     <ButtonGroup mt={2} vertical>
-                        <Button mb={1}
-                            primary
-                            onPress={this.testCredentials}
-                        >
-                            Test db
-                        </Button>
-
                         {this.saveAsButton}
                         {this.editButton}
                         {this.deleteButton}
