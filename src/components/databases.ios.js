@@ -10,6 +10,7 @@ import {
     TouchableHighlight
 } from 'react-native';
 import DatabasePicker from './databasePicker'
+import DatabaseConnectionException from '../exceptions/databaseConnectionException';
 import DatabaseIncompleteException from '../exceptions/databaseIncompleteException';
 import AliasAlreadyInUseException from '../exceptions/aliasAlreadyInUseException'
 import {
@@ -108,20 +109,27 @@ class DatabasesView extends Component {
         try {
             const response = await fetch('http://' + this.state.url + ':' + this.state.port + '/query?db=' + this.state.name + '&q=SHOW%20MEASUREMENTS');
             const json = await response.json();
-            console.log(json);
         } catch(error) {
-            throw error;
+            throw new DatabaseConnectionException(error);
         }
     }
 
-    writeDatabase = (index) => {
+    writeDatabase = async (index) => {
         const database = this.getDatabaseFromState();
 
         try {
             this.checkCredentialsCompleteness();
             this.checkAliasAlreadyExisting(index);
+            await this.checkDatabaseConnection();
         }
         catch (e) {
+            console.log(e);
+            if (e instanceof DatabaseConnectionException) {
+                AlertIOS.alert(
+                    'Connection failed',
+                    e.message
+                );
+            }
             if (e instanceof DatabaseIncompleteException) {
                 AlertIOS.alert(
                     'Database incomplete',
@@ -138,17 +146,9 @@ class DatabasesView extends Component {
                     ]
                 );
             }
-        }
 
-        this.checkDatabaseConnection().then(function(result) {
-            return true
-        }, function(error) {
-            AlertIOS.alert(
-                'Connection failed',
-                'Can not connect to database - reason: ' + error.toString()  + '. Please check the connection parameters.'
-            );
-            return false
-        });
+            return false;
+        }
 
         if (typeof index === 'undefined') {
             this.props.actions.addDatabase(database);
