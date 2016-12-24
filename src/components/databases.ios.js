@@ -10,9 +10,7 @@ import {
     TouchableHighlight
 } from 'react-native';
 import DatabasePicker from './databasePicker'
-import DatabaseConnectionException from '../exceptions/databaseConnectionException';
-import DatabaseIncompleteException from '../exceptions/databaseIncompleteException';
-import AliasAlreadyInUseException from '../exceptions/aliasAlreadyInUseException'
+import * as InfluxExceptions from '../exceptions/influxExceptions';
 import {
     SectionHeader,
     InputGroup,
@@ -88,7 +86,7 @@ class DatabasesView extends Component {
     checkAliasAlreadyExisting = (indexOfCurrentlyEditedDatabase) => {
         this.props.databases.credentials.map((database, index) => {
             if (database.alias == this.state.alias && indexOfCurrentlyEditedDatabase !== index) {
-                throw new AliasAlreadyInUseException(this.state.alias, index);
+                throw new InfluxExceptions.AliasAlreadyInUseException(this.state.alias, index);
             }
         })
     }
@@ -99,7 +97,7 @@ class DatabasesView extends Component {
         for(var property in database) {
             if(database.hasOwnProperty(property)) {
                 if (typeof database[property] === 'undefined') {
-                    throw new DatabaseIncompleteException(property);
+                    throw new InfluxExceptions.DatabaseConfigurationIncompleteException(property);
                 }
             }
         }
@@ -109,40 +107,70 @@ class DatabasesView extends Component {
         try {
             const response = await fetch('http://' + this.state.url + ':' + this.state.port + '/query?db=' + this.state.name + '&q=SHOW%20MEASUREMENTS');
             const json = await response.json();
+            return json;
         } catch(error) {
-            throw new DatabaseConnectionException(error);
+            throw new InfluxExceptions.HostNotFoundException(error);
+        }
+    }
+
+    checkDatabaseExistence(json) {
+        if (typeof json.results[0].series === 'undefined') {
+            throw new InfluxExceptions.DatabaseNotFoundException();
+        }
+    }
+
+    checkMeasurementExistence(json) {
+        let measurementIsExisting = false;
+        json.results[0].series[0].values[0].map(
+            (measurement) => {
+                if (measurement === this.state.measurement) {
+                    measurementIsExisting = true
+                }
+            });
+
+        if(!measurementIsExisting) {
+            throw new InfluxExceptions.MeasurementNotFoundException();
         }
     }
 
     writeDatabase = async (index) => {
         const database = this.getDatabaseFromState();
 
+        // Pre-write operation checks
         try {
             this.checkCredentialsCompleteness();
             this.checkAliasAlreadyExisting(index);
-            await this.checkDatabaseConnection();
+            const influxResult = await this.checkDatabaseConnection();
+            this.checkDatabaseExistence(influxResult);
+            this.checkMeasurementExistence(influxResult);
         }
         catch (e) {
-            console.log(e);
-            if (e instanceof DatabaseConnectionException) {
+            if (e instanceof InfluxExceptions.HostNotFoundException ||
+                e instanceof InfluxExceptions.DatabaseConfigurationIncompleteException ||
+                e instanceof InfluxExceptions.DatabaseNotFoundException) {
                 AlertIOS.alert(
-                    'Connection failed',
+                    e.title,
                     e.message
                 );
             }
-            if (e instanceof DatabaseIncompleteException) {
+            if (e instanceof InfluxExceptions.AliasAlreadyInUseException ||
+                e instanceof InfluxExceptions.MeasurementNotFoundException) {
                 AlertIOS.alert(
-                    'Database incomplete',
-                    e.message
-                );
-            }
-            if (e instanceof AliasAlreadyInUseException) {
-                AlertIOS.alert(
-                    'Conflict',
+                    e.title,
                     e.message,
                     [
-                        {text: 'Cancel', onPress: () => {}, style: 'cancel'},
-                        {text: 'Overwrite', onPress: () => this.props.actions.editDatabase(e.index, database), style: 'destructive'}
+                        {
+                            text: 'Cancel', onPress: () => {}, style: 'cancel'},
+                        {
+                            text: 'Continue', onPress: () => {
+                                if (typeof index === 'undefined') {
+                                    this.props.actions.addDatabase(database);
+                                    }
+                                else {
+                                    this.props.actions.editDatabase(index, database);
+                                }},
+                            style: 'destructive'
+                        }
                     ]
                 );
             }
@@ -150,6 +178,7 @@ class DatabasesView extends Component {
             return false;
         }
 
+        // Writing to store
         if (typeof index === 'undefined') {
             this.props.actions.addDatabase(database);
         }
