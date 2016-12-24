@@ -5,8 +5,7 @@ import {
     TextInput,
     ScrollView,
     Picker,
-    TouchableInput,
-    TouchableHighlight
+    TouchableInput
 } from 'react-native';
 import DatabasePicker from './databasePicker'
 import {
@@ -15,7 +14,10 @@ import {
     InputPicker,
     InputGroup,
     InputAddRow,
-    SectionHeader
+    SectionHeader,
+    Base,
+    ButtonGroup,
+    Button
 } from 'panza'
 
 import RemovableInput from './panza-migrations/removableInput';
@@ -69,7 +71,7 @@ class WriterView extends Component {
 
     onPressButton = () => {
         const database = this.props.databases.credentials[this.props.databases.selected];
-        let body = database.measurement + ',type=' + this.state.tag + ' title="' + this.state.title + '",text="' + this.state.text + '"';
+        let body = database.measurement + ' title="' + this.state.title + '",text="' + this.state.text + '"';
         if (this.state.tags.length > 0) {
             body += ',tags="' + this.state.tags.reduce((a, b) => a + ' ' + b) + '"';
         }
@@ -95,13 +97,31 @@ class WriterView extends Component {
 
     render() {
         return (
-            <ScrollView style={{backgroundColor: '#fafafa', padding: 10 }}>
-                <TouchableHighlight onPress={this.onPressButton}>
-                    <Text style={{padding: 10, fontSize: 20}}>
-                        Annotate!
-                    </Text>
-                </TouchableHighlight>
+            <ScrollView style={{backgroundColor: '#fafafa'}}>
+                <SectionHeader>
+                    ANNOTATION WRITER
+                </SectionHeader>
                 <InputGroup>
+                    <Text style={{padding: 10, fontSize: 20}}>
+                        Title
+                    </Text>
+
+                    <TextInput
+                        style={{height: 20}}
+                        placeholder="Type here to write the title"
+                        onChangeText={(title) => this.setState({title})}
+                    />
+
+                    <Text style={{padding: 10, fontSize: 20}}>
+                        Message
+                    </Text>
+
+                    <TextInput
+                        style={{height: 20}}
+                        placeholder="Type here to write the text of the annotation"
+                        onChangeText={(text) => this.setState({text})}
+                    />
+                    <DatabasePicker/>
                     <InputToggle
                         value={this.state.useNow}
                         onValueChange={(value) => this.setState({useNow: value})}
@@ -128,57 +148,7 @@ class WriterView extends Component {
                         this.setState({ focusDate: !this.state.focusDate })
                     }}
                     />
-
-                    <InputPicker
-                        expanded={this.state.focusPicker}
-                        value={this.state.tag}
-                        label='Tag'
-                        editable={this.state.editable}
-                        onToggleExpansion={() => {
-                        this.setState({ focusPicker: !this.state.focusPicker })
-                    }}>
-                        <Picker
-                            prompt='Tag'
-                            style={{ width: 300 }}
-                            selectedValue={this.state.tag}
-                            onValueChange={(tag) => this.setState({tag})}>
-                            <Picker.Item
-                                key='manual'
-                                value='manual'
-                                label='manual'
-                            />
-                            <Picker.Item
-                                key='live-deploy'
-                                value='live-deploy'
-                                label='live-deploy'
-                            />
-                        </Picker>
-                    </InputPicker>
-
-                    <DatabasePicker/>
-
                 </InputGroup>
-
-                <Text style={{padding: 10, fontSize: 20}}>
-                    Title
-                </Text>
-
-                <TextInput
-                    style={{height: 20}}
-                    placeholder="Type here to write the title"
-                    onChangeText={(title) => this.setState({title})}
-                />
-
-
-                <Text style={{padding: 10, fontSize: 20}}>
-                    Message
-                </Text>
-
-                <TextInput
-                    style={{height: 20}}
-                    placeholder="Type here to write the text of the annotation"
-                    onChangeText={(text) => this.setState({text})}
-                />
 
                 <SectionHeader>TAGS (OPTIONAL)</SectionHeader>
                 <InputGroup>
@@ -198,6 +168,17 @@ class WriterView extends Component {
                         />
                     )}
                 </InputGroup>
+
+                <Base mt={2} p={2}>
+                    <ButtonGroup mt={2} vertical>
+                        <Button mb={1}
+                            primary
+                            onPress={this.onPressButton}
+                        >
+                            Annotate
+                        </Button>
+                    </ButtonGroup>
+                </Base>
             </ScrollView>
         );
     }
