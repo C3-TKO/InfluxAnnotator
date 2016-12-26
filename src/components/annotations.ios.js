@@ -18,6 +18,10 @@ class AnnotationsView extends Component {
         };
     }
 
+    componentDidMount() {
+        this.loadAnnotations();
+    }
+
     loadAnnotations = () => {
         const database = this.props.databases.credentials[this.props.databases.selected];
         return fetch(
@@ -37,16 +41,6 @@ class AnnotationsView extends Component {
         });
     };
 
-    renderAnnotations = () => {
-        return (
-            <Text>
-                TEST
-            </Text>
-        )
-
-
-    };
-
     render() {
         return (
             <ScrollView style={{backgroundColor: '#fafafa' }}>
@@ -57,6 +51,7 @@ class AnnotationsView extends Component {
                 </TouchableHighlight>
                 {this.state.annotations.map((annotation, index) =>
                     <TouchableRow
+                        key={index}
                         onPress={noop}
                         primaryText='Title'
                         secondaryText={annotation[1]}
