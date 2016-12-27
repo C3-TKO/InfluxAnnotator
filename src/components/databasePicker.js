@@ -21,6 +21,7 @@ class DatabasePicker extends Component {
         if ( this.props.databases.credentials.length > 0 ) {
             databasePicker = (
                 <InputPicker
+                    style={{paddingRight: 15}}
                     expanded={this.state.focusPicker}
                     value={this.props.databases.credentials[this.props.databases.selected].alias}
                     label='Database'
