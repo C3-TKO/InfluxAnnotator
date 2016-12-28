@@ -17,10 +17,12 @@ import {
     SectionHeader,
     Base,
     ButtonGroup,
-    Button
+    Button,
+    TouchableRow
 } from 'panza'
 
 import RemovableInput from './panza-migrations/removableInput';
+import InputRow from './panza-migrations/inputRow';
 
 const GreenPlusIcon = () => (
     <Base
@@ -102,14 +104,12 @@ class WriterView extends Component {
                     ANNOTATION WRITER
                 </SectionHeader>
                 <InputGroup>
-                    <Text style={{padding: 10, fontSize: 20}}>
-                        Title
-                    </Text>
-
-                    <TextInput
-                        style={{height: 20}}
-                        placeholder="Type here to write the title"
-                        onChangeText={(title) => this.setState({title})}
+                    <InputRow
+                        style={{backgroundColor: '#ffffff'}}
+                        label='Title'
+                        value={this.state.title}
+                        placeholder='Annotation title'
+                        onChangeText={(title) => this.setState({ title })}
                     />
 
                     <Text style={{padding: 10, fontSize: 20}}>
