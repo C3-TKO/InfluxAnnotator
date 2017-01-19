@@ -10,7 +10,6 @@ import {
 import DatabasePicker from './databasePicker'
 import {
     InputDatePicker,
-    InputToggle,
     InputPicker,
     InputGroup,
     InputAddRow,
@@ -23,6 +22,7 @@ import {
 
 import RemovableInput from './panza-migrations/removableInput';
 import InputRow from './panza-migrations/inputRow';
+import InputToggle from './panza-migrations/inputToggle';
 
 const GreenPlusIcon = () => (
     <Base
