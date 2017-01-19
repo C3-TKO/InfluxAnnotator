@@ -104,6 +104,7 @@ class WriterView extends Component {
                     ANNOTATION WRITER
                 </SectionHeader>
                 <InputGroup>
+                    <DatabasePicker/>
                     <InputRow
                         style={{backgroundColor: '#ffffff'}}
                         label='Title'
@@ -112,16 +113,12 @@ class WriterView extends Component {
                         onChangeText={(title) => this.setState({ title })}
                     />
 
-                    <Text style={{padding: 10, fontSize: 20}}>
-                        Message
-                    </Text>
-
                     <TextInput
-                        style={{height: 20}}
+                        style={{height: 120, borderColor: 'gray', fontSize: 17, paddingLeft: 16, paddingRight: 16, backgroundColor: '#ffffff'}}
                         placeholder="Type here to write the text of the annotation"
                         onChangeText={(text) => this.setState({text})}
+                        multiline={true}
                     />
-                    <DatabasePicker/>
                     <InputToggle
                         value={this.state.useNow}
                         onValueChange={(value) => this.setState({useNow: value})}
