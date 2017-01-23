@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import InboxRow from './inbboxRow';
 import {
     ScrollView,
     Text,
     TouchableHighlight,
     RefreshControl
 } from 'react-native';
-import moment from 'moment';
 
 import { TouchableRow } from 'panza';
 
@@ -63,14 +63,14 @@ class AnnotationsView extends Component {
                 />}
             >
                 {this.state.annotations.map((annotation, index) =>
-                    <TouchableRow
+                    <InboxRow
                         key={index}
                         onPress={noop}
-                        primaryText={annotation[1]}
-                        secondaryText={moment(annotation[0]).format('D MMM YY, h:mm')}
-                        value={moment(annotation[0]).format('D MMM YY, h:mm')}
-                        //value={annotation[3]}
-                        secondaryText={annotation[2]}
+                        title={annotation[1]}
+                        time={annotation[0]}
+                        text={annotation[2]}
+                        tags={annotation[3]}
+                        value={'test'}
                     />
                 )}
             </ScrollView>
