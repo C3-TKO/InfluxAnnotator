@@ -34,13 +34,12 @@ const InboxRow = ({
         onPress={onPress}
         {...other}
     >
-
         {image && (
             <Image mr={2} width={40} height={40} source={image} />
         )}
 
-        <Base flex={1} row align='center' justify='space-between'>
-            <Base flex={1}>
+        <Base flex={1} row align='flex-start' justify='space-between'>
+            <Base flex={.8}>
                 {title && (
                     <Text lineHeight={2} numberOfLines={1}>{title}</Text>
                 )}
@@ -52,12 +51,12 @@ const InboxRow = ({
                 )}
             </Base>
 
-            {time && (
-                <Text light>{moment(time).format('D MMM YY, h:mm')}</Text>
-            )}
-
+            <Base flex={.2}>
+                {time && (
+                    <Text light>{moment(time).format('D MMM YY, h:mm')}</Text>
+                )}
+            </Base>
         </Base>
-
     </TouchableRowCell>
 )
 
