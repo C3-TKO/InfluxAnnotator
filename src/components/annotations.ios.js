@@ -6,6 +6,7 @@ import {
     TouchableHighlight,
     RefreshControl
 } from 'react-native';
+import moment from 'moment';
 
 import { TouchableRow } from 'panza';
 
@@ -61,18 +62,15 @@ class AnnotationsView extends Component {
                     progressBackgroundColor="#ffff00"
                 />}
             >
-                <TouchableHighlight onPress={this.loadAnnotations}>
-                    <Text style={{padding: 10, fontSize: 20}}>
-                        Read
-                    </Text>
-                </TouchableHighlight>
                 {this.state.annotations.map((annotation, index) =>
                     <TouchableRow
                         key={index}
                         onPress={noop}
-                        primaryText='Title'
-                        secondaryText={annotation[1]}
-                        value={annotation[2]}
+                        primaryText={annotation[1]}
+                        secondaryText={moment(annotation[0]).format('D MMM YY, h:mm')}
+                        value={moment(annotation[0]).format('D MMM YY, h:mm')}
+                        //value={annotation[3]}
+                        secondaryText={annotation[2]}
                     />
                 )}
             </ScrollView>
