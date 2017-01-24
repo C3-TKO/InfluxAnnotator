@@ -53,7 +53,7 @@ const InboxRow = ({
 
             <Base flex={.2}>
                 {time && (
-                    <Text light>{moment(time).format('D MMM YY, h:mm')}</Text>
+                    <Text light>{moment(time).format('D.M.YY hh:mm')}</Text>
                 )}
             </Base>
         </Base>
