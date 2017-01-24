@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import InboxRow from './inbboxRow';
 import {
     ScrollView,
     Text,
@@ -28,7 +29,7 @@ class AnnotationsView extends Component {
         this.setState({isRefreshing: true});
         const database = this.props.databases.credentials[this.props.databases.selected];
         return fetch(
-            'http://' + database.url + ':' + database.port + '/query?db=' + database.name + '&q=SELECT * FROM ' + database.measurement + ' ORDER BY time DESC LIMIT 50',
+            'http://' + database.url + ':' + database.port + '/query?db=' + database.name + '&q=SELECT title, text, tags, time FROM ' + database.measurement + ' ORDER BY time DESC LIMIT 50',
             {
                 method: 'GET'
             }
@@ -61,18 +62,15 @@ class AnnotationsView extends Component {
                     progressBackgroundColor="#ffff00"
                 />}
             >
-                <TouchableHighlight onPress={this.loadAnnotations}>
-                    <Text style={{padding: 10, fontSize: 20}}>
-                        Read
-                    </Text>
-                </TouchableHighlight>
                 {this.state.annotations.map((annotation, index) =>
-                    <TouchableRow
+                    <InboxRow
                         key={index}
                         onPress={noop}
-                        primaryText='Title'
-                        secondaryText={annotation[1]}
-                        value={annotation[2]}
+                        title={annotation[1]}
+                        time={annotation[0]}
+                        text={annotation[2]}
+                        tags={annotation[3]}
+                        value={'test'}
                     />
                 )}
             </ScrollView>
