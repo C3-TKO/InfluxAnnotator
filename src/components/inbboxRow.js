@@ -33,6 +33,7 @@ const InboxRow = ({
         py={2}
         onPress={onPress}
         {...other}
+        style={{ borderBottomWidth: .75, borderColor: 'rgba(0, 0, 0, 0.25)' }}
     >
         {image && (
             <Image mr={2} width={40} height={40} source={image} />
@@ -41,10 +42,10 @@ const InboxRow = ({
         <Base flex={1} row align='flex-start' justify='space-between'>
             <Base flex={.8}>
                 {title && (
-                    <Text lineHeight={2} numberOfLines={1}>{title}</Text>
+                    <Text bold lineHeight={2} numberOfLines={1}>{title}</Text>
                 )}
                 {tags && (
-                    <Text small lineHeight={2} light numberOfLines={1}>{tags}</Text>
+                    <Text small lineHeight={2} numberOfLines={1}>{tags}</Text>
                 )}
                 {text && (
                     <Text small lineHeight={2} light numberOfLines={4}>{text}</Text>
