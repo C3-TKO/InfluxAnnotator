@@ -1,9 +1,21 @@
 import * as types from '../actions/actionTypes';
+import { Map, List } from 'immutable';
 
+
+const initialState = Map(
+    {
+        selected: undefined,
+        credentials: []
+    }
+)
+
+
+/*
 const initialState = {
     selected: undefined,
     credentials: []
 };
+*/
 
 export default function databases(state = initialState, action = {}) {
     switch (action.type) {

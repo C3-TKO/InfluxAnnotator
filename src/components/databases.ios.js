@@ -34,9 +34,9 @@ class DatabasesView extends Component {
 
     constructor(props) {
         super(props);
-        if(typeof props.databases.selected !== undefined) {
+        if(typeof props.databases.get('selected') !== undefined) {
             this.state = {
-                ...props.databases.credentials[props.databases.selected]
+                ...props.databases.get('credentials')[props.databases.get('selected')]
             }
         }
 
@@ -55,8 +55,8 @@ class DatabasesView extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(typeof nextProps.databases.selected !== 'undefined') {
-            const database = nextProps.databases.credentials[nextProps.databases.selected];
+        if(typeof nextProps.databases.get('selected') !== 'undefined') {
+            const database = nextProps.databases.credentials[nextProps.databases.get('selected')];
 
             this.setState ({
                 index: database.index,
@@ -192,11 +192,11 @@ class DatabasesView extends Component {
     }
 
     onPressEditButton = () => {
-        this.writeDatabase(this.props.databases.selected)
+        this.writeDatabase(this.props.databases.get('selected'))
     }
 
     onPressDeleteButton = () => {
-        this.props.actions.deleteDatabase(this.props.databases.selected);
+        this.props.actions.deleteDatabase(this.props.databases.get('selected'));
     }
 
     onPressAddDummyDataButton = () => {
@@ -252,7 +252,7 @@ class DatabasesView extends Component {
     );
 
     renderButtons = () => {
-        if(typeof this.props.databases.selected !== 'undefined') {
+        if(typeof this.props.databases.get('selected') !== 'undefined') {
             return (
                 <Base mt={2} p={2}>
                     <ButtonGroup mt={2} vertical>
