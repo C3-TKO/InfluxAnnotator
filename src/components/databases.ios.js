@@ -19,6 +19,7 @@ import {
     Button
 } from 'panza';
 import InputRow from './panza-migrations/inputRow';
+import { Map } from 'immutable';
 
 class DatabasesView extends Component {
     static defaultProps = {
@@ -56,7 +57,7 @@ class DatabasesView extends Component {
 
     componentWillReceiveProps(nextProps) {
         if(typeof nextProps.databases.get('selected') !== 'undefined') {
-            const database = nextProps.databases.credentials[nextProps.databases.get('selected')];
+            const database = nextProps.databases.get('credentials').get(nextProps.databases.get('selected'));
 
             this.setState ({
                 index: database.index,
@@ -72,7 +73,7 @@ class DatabasesView extends Component {
     }
 
     getDatabaseFromState = () => {
-        return {
+        return Map({
             url: this.state.url,
             alias: this.state.alias,
             port: this.state.port,
@@ -80,11 +81,11 @@ class DatabasesView extends Component {
             measurement: this.state.measurement,
             username: this.state.username,
             password: this.state.password
-        }
+        })
     }
 
     checkAliasAlreadyExisting = (indexOfCurrentlyEditedDatabase) => {
-        this.props.databases.credentials.map((database, index) => {
+        this.props.databases.get('credentials').map((database, index) => {
             if (database.alias == this.state.alias && indexOfCurrentlyEditedDatabase !== index) {
                 throw new InfluxExceptions.AliasAlreadyInUseException(this.state.alias, index);
             }
