@@ -20,9 +20,6 @@ export default function databases(state = initialState, action = {}) {
             const nextDatabaseList = state.get('credentials').push(action.database)
             nextState = state.set('selected', state.get('credentials').size);
             nextState = nextState.set('credentials', nextDatabaseList);
-
-
-            console.log(nextState);
             return nextState;
         /*
         case types.EDIT_DATABASE:
