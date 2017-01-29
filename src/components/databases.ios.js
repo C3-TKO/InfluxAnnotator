@@ -86,7 +86,7 @@ class DatabasesView extends Component {
 
     checkAliasAlreadyExisting = (indexOfCurrentlyEditedDatabase) => {
         this.props.databases.get('credentials').map((database, index) => {
-            if (database.alias == this.state.alias && indexOfCurrentlyEditedDatabase !== index) {
+            if (database.alias === this.state.alias && indexOfCurrentlyEditedDatabase !== index) {
                 throw new InfluxExceptions.AliasAlreadyInUseException(this.state.alias, index);
             }
         })
@@ -95,9 +95,11 @@ class DatabasesView extends Component {
     checkCredentialsCompleteness = () => {
         const database = this.getDatabaseFromState();
 
-        for(var property in database) {
-            if(database.hasOwnProperty(property)) {
-                if (typeof database[property] === 'undefined') {
+        const databaseJS = database.toJS();
+
+        for(var property in databaseJS) {
+            if(databaseJS.hasOwnProperty(property)) {
+                if (typeof databaseJS[property] === 'undefined') {
                     throw new InfluxExceptions.DatabaseConfigurationIncompleteException(property);
                 }
             }
