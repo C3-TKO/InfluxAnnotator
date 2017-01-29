@@ -5,31 +5,26 @@ import { Map, List } from 'immutable';
 const initialState = Map(
     {
         selected: undefined,
-        credentials: []
+        credentials: List([])
     }
 )
 
-
-/*
-const initialState = {
-    selected: undefined,
-    credentials: []
-};
-*/
-
 export default function databases(state = initialState, action = {}) {
+    console.log(state);
+    console.log(action);
+
+    let nextState = state;
+
     switch (action.type) {
         case types.ADD_DATABASE:
-            return {
-                ...state,
-                selected: state.credentials.length,
-                credentials: [
-                    ...state.credentials,
-                    {
-                        ...action.database
-                    }
-                ]
-            };
+            const nextDatabaseList = state.get('credentials').push(action.database)
+            nextState = state.set('selected', state.get('credentials').size);
+            nextState = nextState.set('credentials', nextDatabaseList);
+
+
+            console.log(nextState);
+            return nextState;
+        /*
         case types.EDIT_DATABASE:
             return {
                 ...state,
@@ -39,6 +34,8 @@ export default function databases(state = initialState, action = {}) {
                                                                             : credential
                 )
             };
+
+        /*
         case types.DELETE_DATABASE:
             // Checking for state of the selected index will be out of boundary
             let selected = state.selected;
@@ -64,6 +61,7 @@ export default function databases(state = initialState, action = {}) {
                 ...state,
                 selected: action.index
             };
+            */
         default:
             return state;
     }
