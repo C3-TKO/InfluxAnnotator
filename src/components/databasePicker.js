@@ -18,12 +18,12 @@ class DatabasePicker extends Component {
 
     render() {
         let databasePicker = null;
-        if ( this.props.databases.get('credentials').length > 0 ) {
+        if ( this.props.databases.get('credentials').size > 0 ) {
             databasePicker = (
                 <InputPicker
                     style={{paddingRight: 15}}
                     expanded={this.state.focusPicker}
-                    value={this.props.databases.credentials[this.props.databases.get('selected')].alias}
+                    value={this.props.databases.get('credentials').get(this.props.databases.get('selected')).get('alias')}
                     label='Database'
                     editable={this.state.editable}
                     onToggleExpansion={() => {
@@ -35,7 +35,7 @@ class DatabasePicker extends Component {
                         style={{ width: 300 }}
                         selectedValue={this.props.databases.get('selected')}
                         onValueChange={(index) => this.props.actions.selectDatabase(index)}>
-                        {this.props.databases.get('credentials').map((database, index) =>
+                        {this.props.databases.get('credentials').toJS().map((database, index) =>
                             <Picker.Item
                                 key={index}
                                 value={index}
