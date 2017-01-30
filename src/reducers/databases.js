@@ -10,9 +10,6 @@ const initialState = Map(
 )
 
 export default function databases(state = initialState, action = {}) {
-    console.log(state);
-    console.log(action);
-
     let nextState = state;
 
     switch (action.type) {
@@ -20,12 +17,10 @@ export default function databases(state = initialState, action = {}) {
             const nextDatabaseList = nextState.get('credentials').push(action.database)
             nextState = nextState.set('selected', state.get('credentials').size);
             nextState = nextState.set('credentials', nextDatabaseList);
-            console.log(nextState);
             return nextState;
         case types.EDIT_DATABASE:
             nextState = nextState.set('selected', action.index); // Needs to be set for the case of overwriting an existing database
             nextState = nextState.setIn(['credentials', action.index], action.database)
-            console.log(nextState);
             return nextState;
         case types.DELETE_DATABASE:
             // Checking for state of the selected index will be out of boundary
@@ -43,16 +38,9 @@ export default function databases(state = initialState, action = {}) {
             nextState = nextState.set('selected', selected);
             nextState = nextState.deleteIn(['credentials', action.index]);
 
-            console.log(nextState);
             return nextState;
-
-        /*
         case types.SELECT_DATABASE:
-            return {
-                ...state,
-                selected: action.index
-            };
-            */
+            return nextState.set('selected', action.index);
         default:
             return state;
     }
