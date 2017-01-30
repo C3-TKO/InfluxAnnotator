@@ -85,7 +85,7 @@ class DatabasesView extends Component {
     }
 
     checkAliasAlreadyExisting = (indexOfCurrentlyEditedDatabase) => {
-        this.props.databases.get('credentials').map((database, index) => {
+        this.props.databases.get('credentials').toJS().map((database, index) => {
             if (database.alias === this.state.alias && indexOfCurrentlyEditedDatabase !== index) {
                 throw new InfluxExceptions.AliasAlreadyInUseException(this.state.alias, index);
             }

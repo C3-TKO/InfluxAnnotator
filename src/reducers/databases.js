@@ -17,21 +17,18 @@ export default function databases(state = initialState, action = {}) {
 
     switch (action.type) {
         case types.ADD_DATABASE:
-            const nextDatabaseList = state.get('credentials').push(action.database)
-            nextState = state.set('selected', state.get('credentials').size);
+            const nextDatabaseList = nextState.get('credentials').push(action.database)
+            nextState = nextState.set('selected', state.get('credentials').size);
             nextState = nextState.set('credentials', nextDatabaseList);
+            console.log(nextState);
             return nextState;
-        /*
         case types.EDIT_DATABASE:
-            return {
-                ...state,
-                selected: action.index, // Needs to be set for the case of overwriting an existing database
-                credentials: state.credentials.map((credential, index) => index === action.index
-                                                                            ? action.database
-                                                                            : credential
-                )
-            };
-
+            console.log(nextState);
+            console.log(action);
+            nextState = nextState.set('selected', action.index); // Needs to be set for the case of overwriting an existing database
+            nextState = nextState.setIn(['credentials', action.index], action.database)
+            console.log(nextState);
+            return nextState;
         /*
         case types.DELETE_DATABASE:
             // Checking for state of the selected index will be out of boundary
