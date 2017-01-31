@@ -1,5 +1,10 @@
 import databases from './databases';
+import Record from 'immutable';
+import { combineReducers } from 'redux-immutable';
 
-export {
-    databases
+const reducers = {
+    database: databases
 };
+module.exports = combineReducers(reducers);
+
+
