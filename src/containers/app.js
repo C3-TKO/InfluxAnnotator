@@ -8,15 +8,14 @@ import thunk from 'redux-thunk';
 import * as reducers from '../reducers';
 import InfluxAnnotatorApp from './influxAnnotatorApp.ios';
 
-const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
-const reducer = combineReducers(reducers);
+const initialState = {};
 
 const store = createStore(
     combineReducers(reducers),
     {},
     compose(
-        autoRehydrate(),
-        applyMiddleware(thunk)
+        autoRehydrate()
+        //applyMiddleware(thunk)
     )
 )
 
