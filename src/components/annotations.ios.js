@@ -7,6 +7,7 @@ import {
     TouchableHighlight,
     RefreshControl
 } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 
 import { TouchableRow } from 'panza';
 
@@ -50,7 +51,7 @@ class AnnotationsView extends Component {
     render() {
         return (
             <ScrollView
-                style={{backgroundColor: '#fafafa' }}
+                style={{ backgroundColor: '#fafafa' }}
                 refreshControl={
                 <RefreshControl
                     refreshing={this.state.isRefreshing}
@@ -65,7 +66,7 @@ class AnnotationsView extends Component {
                 {this.state.annotations.map((annotation, index) =>
                     <InboxRow
                         key={index}
-                        onPress={noop}
+                        onPress={Actions.editor}
                         title={annotation[1]}
                         time={annotation[0]}
                         text={annotation[2]}
