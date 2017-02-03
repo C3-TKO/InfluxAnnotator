@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import InboxRow from './inbboxRow';
 import {
+    AlertIOS,
     ScrollView,
     Text,
     TouchableHighlight,
@@ -43,7 +44,10 @@ class AnnotationsView extends Component {
             this.setState({isRefreshing: false});
         })
         .catch((error) => {
-            console.error(error);
+            AlertIOS.alert(
+                error.message,
+                'Database ' + this.props.databases.credentials[this.props.databases.selected].alias + ' is not reachable.'
+            );
             this.setState({isRefreshing: false});
         });
     };
