@@ -4,6 +4,7 @@ import InboxRow from './inbboxRow';
 import {
     AlertIOS,
     ScrollView,
+    View,
     Text,
     TouchableHighlight,
     RefreshControl
@@ -52,7 +53,7 @@ class AnnotationsView extends Component {
         });
     };
 
-    render() {
+    renderFilledInbox() {
         return (
             <ScrollView
                 style={{ backgroundColor: '#fafafa' }}
@@ -80,6 +81,33 @@ class AnnotationsView extends Component {
                 )}
             </ScrollView>
         );
+    }
+
+    renderEmptyInbox() {
+        return (
+            <View
+                style={{
+                    backgroundColor: '#fafafa',
+                    flex: 1,
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                    }}
+            >
+                <Text
+                    style={{ width: 250, textAlign: 'center', fontSize: 15, fontWeight: 'bold' }}
+                >There are no annotations to be found yet!</Text>
+            </View>
+        );
+    }
+
+    render() {
+        if (this.state.annotations.length > 0) {
+            return this.renderFilledInbox()
+        }
+        else {
+            return this.renderEmptyInbox()
+        }
     }
 }
 
