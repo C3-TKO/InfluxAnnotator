@@ -92,10 +92,15 @@ class AnnotationsView extends Component {
                     flexDirection: 'column',
                     justifyContent: 'center',
                     alignItems: 'center'
-                    }}
+                }}
             >
                 <Text
-                    style={{ width: 250, textAlign: 'center', fontSize: 15, fontWeight: 'bold' }}
+                    style={{
+                        width: 250,
+                        textAlign: 'center',
+                        fontSize: 17,
+                        color: '#8F8E94'
+                    }}
                 >There are no annotations to be found yet!</Text>
             </View>
         );
