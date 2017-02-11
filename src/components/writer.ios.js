@@ -41,7 +41,6 @@ const GreenPlusIcon = () => (
 class WriterView extends Component {
     static defaultProps = {
         date: new Date(),
-        tag: 'manual',
         useNow: true,
         focusDate: false,
         focusPicker: false,
@@ -53,7 +52,6 @@ class WriterView extends Component {
         this.state = {
             title: undefined,
             text: undefined,
-            tag: this.props.tag,
             tags: this.props.tags,
             date: this.props.date,
             useNow: this.props.useNow,

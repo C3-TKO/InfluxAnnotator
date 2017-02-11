@@ -56,7 +56,10 @@ class AnnotationsView extends Component {
     renderFilledInbox() {
         return (
             <ScrollView
-                style={{ backgroundColor: '#fafafa' }}
+                style={{
+                    backgroundColor: '#fafafa',
+                    marginTop: 20
+                }}
                 refreshControl={
                 <RefreshControl
                     refreshing={this.state.isRefreshing}
@@ -68,16 +71,26 @@ class AnnotationsView extends Component {
                     progressBackgroundColor="#ffff00"
                 />}
             >
-                {this.state.annotations.map((annotation, index) =>
-                    <InboxRow
-                        key={index}
-                        onPress={Actions.editor}
-                        title={annotation[1]}
-                        time={annotation[0]}
-                        text={annotation[2]}
-                        tags={annotation[3]}
-                        value={'test'}
-                    />
+                {this.state.annotations.map((annotation, index) => {
+                    const goToAnnotationEditor = () => Actions.editor(
+                        {
+                            title: annotation[1],
+                            time: annotation[0],
+                            text: annotation[2],
+                            tags: annotation[3]
+                        }
+                    );
+                    return (
+                        <InboxRow
+                            key={index}
+                            onPress={goToAnnotationEditor}
+                            title={annotation[1]}
+                            time={annotation[0]}
+                            text={annotation[2]}
+                            tags={annotation[3]}
+                            value={'test'}
+                        />
+                    )}
                 )}
             </ScrollView>
         );

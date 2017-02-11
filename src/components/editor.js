@@ -41,24 +41,20 @@ const GreenPlusIcon = () => (
 class EditorView extends Component {
     static defaultProps = {
         date: new Date(),
-        tag: 'manual',
-        useNow: true,
+        useNow: false,
         focusDate: false,
-        focusPicker: false,
         tags: []
     };
 
     constructor(props) {
         super(props);
         this.state = {
-            title: undefined,
-            text: undefined,
-            tag: this.props.tag,
-            tags: this.props.tags,
-            date: this.props.date,
+            title: props.title,
+            text: props.text,
+            tags: (typeof props.tags === 'string') ? props.tags.split(' ') : [],
+            time: new Date(props.time),
             useNow: this.props.useNow,
-            focusDate: this.props.focusDate,
-            focusPicker: this.props.focusPicker
+            focusDate: this.props.focusDate
         };
     }
 
@@ -72,6 +68,8 @@ class EditorView extends Component {
     };
 
     onPressButton = () => {
+        console.log(this.props);
+        /*
         const database = this.props.databases.credentials[this.props.databases.selected];
         let body = database.measurement + ' title="' + this.state.title + '",text="' + this.state.text + '"';
         if (this.state.tags.length > 0) {
@@ -87,6 +85,7 @@ class EditorView extends Component {
                 body: body
             }
         );
+        */
     };
 
     onRemoveTag = (indexOfRemovedTag) => {
@@ -114,6 +113,7 @@ class EditorView extends Component {
                         placeholder="Type here to write the text of the annotation"
                         onChangeText={(text) => this.setState({text})}
                         multiline={true}
+                        value={this.state.text}
                     />
                     <InputToggle
                         value={this.state.useNow}
@@ -134,8 +134,8 @@ class EditorView extends Component {
                         onDateChange={(date) => {
                         this.setState({ date })
                     }}
-                        value={new Date(this.state.date).toLocaleDateString('en-US', this.dateTimeLocalOptions)}
-                        date={this.state.date}
+                        value={new Date(this.state.time).toLocaleDateString('en-US', this.dateTimeLocalOptions)}
+                        date={this.state.time}
                         expanded={this.state.focusDate}
                         onToggleExpansion={() => {
                         this.setState({ focusDate: !this.state.focusDate })
