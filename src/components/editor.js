@@ -162,7 +162,7 @@ class EditorView extends Component {
                         >
                             Edit
                         </Button>
-                        <Button mb={1}
+                        <Button mb={4}
                             negative
                             onPress={this.onPressDeleteButton}
                         >
