@@ -74,10 +74,12 @@ class AnnotationsView extends Component {
                 {this.state.annotations.map((annotation, index) => {
                     const goToAnnotationEditor = () => Actions.editor(
                         {
-                            title: annotation[1],
-                            time: annotation[0],
-                            text: annotation[2],
-                            tags: annotation[3]
+                            annotation: {
+                                title: annotation[1],
+                                time: annotation[0],
+                                text: annotation[2],
+                                tags: annotation[3]
+                            }
                         }
                     );
                     return (

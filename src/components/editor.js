@@ -9,8 +9,6 @@ import {
 } from 'react-native';
 import DatabasePicker from './databasePicker'
 import {
-    InputDatePicker,
-    InputPicker,
     InputGroup,
     InputAddRow,
     SectionHeader,
@@ -39,22 +37,15 @@ const GreenPlusIcon = () => (
 );
 
 class EditorView extends Component {
-    static defaultProps = {
-        date: new Date(),
-        useNow: false,
-        focusDate: false,
-        tags: []
-    };
 
     constructor(props) {
         super(props);
+
         this.state = {
-            title: props.title,
-            text: props.text,
-            tags: (typeof props.tags === 'string') ? props.tags.split(' ') : [],
-            time: new Date(props.time),
-            useNow: this.props.useNow,
-            focusDate: this.props.focusDate
+            title: props.annotation.title,
+            text: props.annotation.text,
+            tags: (typeof props.annotation.tags === 'string') ? props.annotation.tags.split(' ') : [],
+            time: new Date(props.annotation.time)
         };
     }
 
@@ -107,39 +98,18 @@ class EditorView extends Component {
                         placeholder='Annotation title'
                         onChangeText={(title) => this.setState({ title })}
                     />
-
+                    <InputRow
+                        style={{backgroundColor: '#ffffff'}}
+                        label='Date'
+                        value={new Date(this.state.time).toLocaleDateString('en-US', this.dateTimeLocalOptions)}
+                        editable={false}
+                    />
                     <TextInput
                         style={{height: 120, borderColor: 'gray', fontSize: 17, paddingLeft: 16, paddingRight: 16, backgroundColor: '#ffffff'}}
                         placeholder="Type here to write the text of the annotation"
                         onChangeText={(text) => this.setState({text})}
                         multiline={true}
                         value={this.state.text}
-                    />
-                    <InputToggle
-                        value={this.state.useNow}
-                        onValueChange={(value) => this.setState({useNow: value})}
-                        label='Now?'
-                    />
-
-                    <InputDatePicker
-                        editable={!this.state.useNow}
-                        hasFocus={this.state.showDate}
-                        label={'Time'}
-                        onRequestFocus={() => {
-                        this.setState({ showDate: true })
-                    }}
-                        onRequestClose={() => {
-                        this.setState({ showDate: false })
-                    }}
-                        onDateChange={(date) => {
-                        this.setState({ date })
-                    }}
-                        value={new Date(this.state.time).toLocaleDateString('en-US', this.dateTimeLocalOptions)}
-                        date={this.state.time}
-                        expanded={this.state.focusDate}
-                        onToggleExpansion={() => {
-                        this.setState({ focusDate: !this.state.focusDate })
-                    }}
                     />
                 </InputGroup>
 
