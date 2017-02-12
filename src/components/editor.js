@@ -58,33 +58,35 @@ class EditorView extends Component {
         minute: "2-digit"
     };
 
-    onPressButton = () => {
-        console.log(this.props);
-        /*
+    onPressEditButton = async() => {
         const database = this.props.databases.credentials[this.props.databases.selected];
-        let body = database.measurement + ' title="' + this.state.title + '",text="' + this.state.text + '"';
-        if (this.state.tags.length > 0) {
-            body += ',tags="' + this.state.tags.reduce((a, b) => a + ' ' + b) + '"';
-        }
-        if (!this.state.useNow) {
-            body +=  ' + (this.state.date.getTime() * 1000000)';
-        }
-        fetch(
-            'http://' + database.url + ':' + database.port + '/write?db=' + database.name,
-            {
-                method: 'POST',
-                body: body
+        const query = "DELETE FROM " + database.measurement + " WHERE time = '" + this.props.annotation.time + "'";
+
+        try {
+            // Deleting prior re-insert
+            const response = await fetch('http://' + database.url + ':' + database.port + '/query?db=' + database.name + '&q=' + query);
+
+
+            let body = database.measurement + ' title="' + this.state.title + '",text="' + this.state.text + '"';
+            if (this.state.tags.length > 0) {
+                body += ',tags="' + this.state.tags.reduce((a, b) => a + ' ' + b) + '"';
             }
-        );
-        */
-    };
+            body +=  ' ' + (this.state.time.getTime() * 1000000);
+            fetch(
+                'http://' + database.url + ':' + database.port + '/write?db=' + database.name,
+                {
+                    method: 'POST',
+                    body: body
+                }
+            );
+
+        } catch(error) {
+            throw error;
+        }
+    }
 
     onPressDeleteButton = async() => {
         const database = this.props.databases.credentials[this.props.databases.selected];
-
-        console.log(this.props.annotation.time);
-
-
         const query = "DELETE FROM " + database.measurement + " WHERE time = '" + this.props.annotation.time + "'";
 
         try {
@@ -158,7 +160,7 @@ class EditorView extends Component {
                     <ButtonGroup mt={2} vertical>
                         <Button mb={1}
                             primary
-                            onPress={this.onPressButton}
+                            onPress={this.onPressEditButton}
                         >
                             Edit
                         </Button>
