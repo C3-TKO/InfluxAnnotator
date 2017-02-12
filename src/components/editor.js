@@ -20,7 +20,7 @@ import {
 
 import RemovableInput from './panza-migrations/removableInput';
 import InputRow from './panza-migrations/inputRow';
-import InputToggle from './panza-migrations/inputToggle';
+import { Actions, ActionConst } from 'react-native-router-flux';
 
 const GreenPlusIcon = () => (
     <Base
@@ -78,6 +78,28 @@ class EditorView extends Component {
         );
         */
     };
+
+    onPressDeleteButton = async() => {
+        const database = this.props.databases.credentials[this.props.databases.selected];
+
+        console.log(this.props.annotation.time);
+
+
+        const query = "DELETE FROM " + database.measurement + " WHERE time = '" + this.props.annotation.time + "'";
+
+        try {
+            const response = await fetch('http://' + database.url + ':' + database.port + '/query?db=' + database.name + '&q=' + query);
+            const json = await response.json();
+            Actions.inbox(
+                {
+                    type: ActionConst.RESET,
+                    reloadAnnotations: true
+                }
+            );
+        } catch(error) {
+            throw error;
+        }
+    }
 
     onRemoveTag = (indexOfRemovedTag) => {
         this.setState({tags: this.state.tags.filter((tag, index) => index != indexOfRemovedTag)})
@@ -142,7 +164,7 @@ class EditorView extends Component {
                         </Button>
                         <Button mb={1}
                             negative
-                            onPress={this.onPressButton}
+                            onPress={this.onPressDeleteButton}
                         >
                             Delete
                         </Button>

@@ -28,6 +28,12 @@ class AnnotationsView extends Component {
         this.loadAnnotations();
     }
 
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.reloadAnnotations) {
+            this.loadAnnotations()
+        }
+    }
+
     loadAnnotations = () => {
         this.setState({isRefreshing: true});
         const database = this.props.databases.credentials[this.props.databases.selected];
