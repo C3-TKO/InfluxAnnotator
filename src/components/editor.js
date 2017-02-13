@@ -59,14 +59,10 @@ class EditorView extends Component {
     };
 
     onPressEditButton = async() => {
+        this.deleteAnnotation();
         const database = this.props.databases.credentials[this.props.databases.selected];
-        const query = "DELETE FROM " + database.measurement + " WHERE time = '" + this.props.annotation.time + "'";
 
         try {
-            // Deleting prior re-insert
-            const response = await fetch('http://' + database.url + ':' + database.port + '/query?db=' + database.name + '&q=' + query);
-
-
             let body = database.measurement + ' title="' + this.state.title + '",text="' + this.state.text + '"';
             if (this.state.tags.length > 0) {
                 body += ',tags="' + this.state.tags.reduce((a, b) => a + ' ' + b) + '"';
@@ -79,28 +75,33 @@ class EditorView extends Component {
                     body: body
                 }
             );
-
         } catch(error) {
             throw error;
         }
     }
 
-    onPressDeleteButton = async() => {
+    deleteAnnotation = async() => {
         const database = this.props.databases.credentials[this.props.databases.selected];
         const query = "DELETE FROM " + database.measurement + " WHERE time = '" + this.props.annotation.time + "'";
 
         try {
             const response = await fetch('http://' + database.url + ':' + database.port + '/query?db=' + database.name + '&q=' + query);
             const json = await response.json();
-            Actions.inbox(
-                {
-                    type: ActionConst.RESET,
-                    reloadAnnotations: true
-                }
-            );
+            return json;
         } catch(error) {
             throw error;
         }
+    }
+
+    onPressDeleteButton = async() => {
+        this.deleteAnnotation();
+        // if no error was caught, everthing should be fine and thus we can return to the inbox
+        Actions.inbox(
+            {
+                type: ActionConst.RESET,
+                reloadAnnotations: true
+            }
+        );
     }
 
     onRemoveTag = (indexOfRemovedTag) => {
