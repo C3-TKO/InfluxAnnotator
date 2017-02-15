@@ -11,6 +11,7 @@ import DatabasesView from '../components/databases.ios.js';
 import AnnotationsView from '../components/annotations.ios.js';
 import EditorView from '../components/editor.js';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { HTTP_METHOD } from '../constants/httpMethod'
 
 import { Router, Scene } from 'react-native-router-flux';
 

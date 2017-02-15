@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "babel-jest": "16.0.0",
+    "babel-plugin-transform-inline-environment-variables": "0.0.2",
     "babel-preset-react-native": "1.9.0",
     "jest": "16.0.2",
     "jest-react-native": "16.1.0",
