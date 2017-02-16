@@ -76,7 +76,7 @@ class WriterView extends Component {
             body += ',tags="' + this.state.tags.reduce((a, b) => a + ' ' + b) + '"';
         }
         if (!this.state.useNow) {
-            body +=  ' + (this.state.date.getTime() * 1000000)';
+            body +=  ' ' + (this.state.date.getTime() * 1000000);
         }
         fetch(
             'http://' + database.url + ':' + database.port + '/write?db=' + database.name,
