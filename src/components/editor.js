@@ -75,6 +75,7 @@ class EditorView extends Component {
                     body: body
                 }
             );
+            this.props.reloadAnnotations();
         } catch(error) {
             throw error;
         }

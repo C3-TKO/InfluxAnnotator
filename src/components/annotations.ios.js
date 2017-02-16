@@ -85,7 +85,8 @@ class AnnotationsView extends Component {
                                 time: annotation[0],
                                 text: annotation[2],
                                 tags: annotation[3]
-                            }
+                            },
+                            reloadAnnotations: this.loadAnnotations
                         }
                     );
                     return (
