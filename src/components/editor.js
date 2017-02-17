@@ -90,6 +90,19 @@ class EditorView extends Component {
         this.setState({tags: this.state.tags.map((tag, index) => index === indexOfChangedTag ? changedTag : tag)});
     }
 
+    renderTags() {
+        if(this.state.tags.length > 0) {
+            return (
+                <InputRow
+                    style={{backgroundColor: '#ffffff'}}
+                    label='Tags'
+                    value={this.state.tags.join(', ')}
+                    editable={false}
+                />
+            )
+        }
+    }
+
     render() {
         return (
             <ScrollView style={{backgroundColor: '#fafafa', paddingTop: 64}}>
@@ -101,6 +114,7 @@ class EditorView extends Component {
                         placeholder='Annotation title'
                         onChangeText={(title) => this.setState({ title })}
                     />
+                    {this.renderTags()}
                     <InputRow
                         style={{backgroundColor: '#ffffff'}}
                         label='Date'
@@ -114,25 +128,6 @@ class EditorView extends Component {
                         multiline={true}
                         value={this.state.text}
                     />
-                </InputGroup>
-
-                <SectionHeader>TAGS (OPTIONAL)</SectionHeader>
-                <InputGroup>
-                    <InputAddRow
-                        label='Add a tag'
-                        onPress={() => this.setState({ tags: ['New-tag', ...this.state.tags]})}
-                    />
-                    {this.state.tags.map((tag, index) =>
-                        <RemovableInput
-                            key={index}
-                            removable
-                            onRequestRemove={() => this.onRemoveTag(index)}
-                            onSelectLabel={noop}
-                            onPress={noop}
-                            onChangeText={(text) => this.onChangeTag(text, index)}
-                            value={tag}
-                        />
-                    )}
                 </InputGroup>
 
                 <Base mt={2} p={2}>
