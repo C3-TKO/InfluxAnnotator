@@ -78,7 +78,7 @@ class AnnotationsView extends Component {
                 />}
             >
                 {this.state.annotations.map((annotation, index) => {
-                    const goToAnnotationEditor = () => Actions.editor(
+                    const goToAnnotationViewer = () => Actions.viewer(
                         {
                             annotation: {
                                 title: annotation[1],
@@ -92,7 +92,7 @@ class AnnotationsView extends Component {
                     return (
                         <InboxRow
                             key={index}
-                            onPress={goToAnnotationEditor}
+                            onPress={goToAnnotationViewer}
                             title={annotation[1]}
                             time={annotation[0]}
                             text={annotation[2]}

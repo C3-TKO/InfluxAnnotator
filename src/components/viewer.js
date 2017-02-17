@@ -36,7 +36,7 @@ const GreenPlusIcon = () => (
     </Base>
 );
 
-class EditorView extends Component {
+class ViewerView extends Component {
 
     constructor(props) {
         super(props);
@@ -149,4 +149,4 @@ export default connect(
     state => ({
         databases: state.databases
     })
-)(EditorView);
+)(ViewerView);

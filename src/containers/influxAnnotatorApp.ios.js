@@ -9,7 +9,7 @@ import { TabBarIOS } from 'react-native';
 import WriterView from '../components/writer.ios.js';
 import DatabasesView from '../components/databases.ios.js';
 import AnnotationsView from '../components/annotations.ios.js';
-import EditorView from '../components/editor.js';
+import ViewerView from '../components/viewer.js';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { HTTP_METHOD } from '../constants/httpMethod'
 
@@ -70,7 +70,7 @@ class InfluxAnnotatorApp extends Component {
                     <Router>
                         <Scene key="root">
                             <Scene key="inbox" component={AnnotationsView} title="Inbox" initial={true} hideNavBar={true} />
-                            <Scene key="editor" component={EditorView} title="Edit Annotation" hideNavBar={false} />
+                            <Scene key="viewer" component={ViewerView} title="View Annotation" hideNavBar={false} />
                         </Scene>
                     </Router>
                 </TabBarItem>
