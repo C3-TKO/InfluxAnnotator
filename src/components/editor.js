@@ -58,29 +58,6 @@ class EditorView extends Component {
         minute: "2-digit"
     };
 
-    onPressEditButton = async() => {
-        this.deleteAnnotation();
-        const database = this.props.databases.credentials[this.props.databases.selected];
-
-        try {
-            let body = database.measurement + ' title="' + this.state.title + '",text="' + this.state.text + '"';
-            if (this.state.tags.length > 0) {
-                body += ',tags="' + this.state.tags.reduce((a, b) => a + ' ' + b) + '"';
-            }
-            body +=  ' ' + (this.state.time.getTime() * 1000000);
-            fetch(
-                'http://' + database.url + ':' + database.port + '/write?db=' + database.name,
-                {
-                    method: 'POST',
-                    body: body
-                }
-            );
-            this.props.reloadAnnotations();
-        } catch(error) {
-            throw error;
-        }
-    }
-
     deleteAnnotation = async() => {
         const database = this.props.databases.credentials[this.props.databases.selected];
         const query = "DELETE FROM " + database.measurement + " WHERE time = '" + this.props.annotation.time + "'";
@@ -160,12 +137,6 @@ class EditorView extends Component {
 
                 <Base mt={2} p={2}>
                     <ButtonGroup mt={2} vertical>
-                        <Button mb={1}
-                            primary
-                            onPress={this.onPressEditButton}
-                        >
-                            Edit
-                        </Button>
                         <Button mb={4}
                             negative
                             onPress={this.onPressDeleteButton}
