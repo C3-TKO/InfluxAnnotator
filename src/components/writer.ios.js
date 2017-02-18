@@ -41,7 +41,6 @@ const GreenPlusIcon = () => (
 class WriterView extends Component {
     static defaultProps = {
         date: new Date(),
-        tag: 'manual',
         useNow: true,
         focusDate: false,
         focusPicker: false,
@@ -53,7 +52,6 @@ class WriterView extends Component {
         this.state = {
             title: undefined,
             text: undefined,
-            tag: this.props.tag,
             tags: this.props.tags,
             date: this.props.date,
             useNow: this.props.useNow,
@@ -78,7 +76,7 @@ class WriterView extends Component {
             body += ',tags="' + this.state.tags.reduce((a, b) => a + ' ' + b) + '"';
         }
         if (!this.state.useNow) {
-            body +=  ' + (this.state.date.getTime() * 1000000)';
+            body +=  ' ' + (this.state.date.getTime() * 1000000);
         }
         fetch(
             'http://' + database.url + ':' + database.port + '/write?db=' + database.name,

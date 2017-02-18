@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import InboxRow from './inbboxRow';
 import {
+    AlertIOS,
     ScrollView,
+    View,
     Text,
     TouchableHighlight,
     RefreshControl
 } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 
 import { TouchableRow } from 'panza';
 
@@ -23,6 +26,12 @@ class AnnotationsView extends Component {
 
     componentDidMount() {
         this.loadAnnotations();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.reloadAnnotations) {
+            this.loadAnnotations()
+        }
     }
 
     loadAnnotations = () => {
@@ -42,15 +51,21 @@ class AnnotationsView extends Component {
             this.setState({isRefreshing: false});
         })
         .catch((error) => {
-            console.error(error);
+            AlertIOS.alert(
+                error.message,
+                'Database ' + this.props.databases.credentials[this.props.databases.selected].alias + ' is not reachable.'
+            );
             this.setState({isRefreshing: false});
         });
     };
 
-    render() {
+    renderFilledInbox() {
         return (
             <ScrollView
-                style={{backgroundColor: '#fafafa' }}
+                style={{
+                    backgroundColor: '#fafafa',
+                    marginTop: 20
+                }}
                 refreshControl={
                 <RefreshControl
                     refreshing={this.state.isRefreshing}
@@ -62,19 +77,64 @@ class AnnotationsView extends Component {
                     progressBackgroundColor="#ffff00"
                 />}
             >
-                {this.state.annotations.map((annotation, index) =>
-                    <InboxRow
-                        key={index}
-                        onPress={noop}
-                        title={annotation[1]}
-                        time={annotation[0]}
-                        text={annotation[2]}
-                        tags={annotation[3]}
-                        value={'test'}
-                    />
+                {this.state.annotations.map((annotation, index) => {
+                    const goToAnnotationViewer = () => Actions.viewer(
+                        {
+                            annotation: {
+                                title: annotation[1],
+                                time: annotation[0],
+                                text: annotation[2],
+                                tags: annotation[3]
+                            },
+                            reloadAnnotations: this.loadAnnotations
+                        }
+                    );
+                    return (
+                        <InboxRow
+                            key={index}
+                            onPress={goToAnnotationViewer}
+                            title={annotation[1]}
+                            time={annotation[0]}
+                            text={annotation[2]}
+                            tags={annotation[3]}
+                            value={'test'}
+                        />
+                    )}
                 )}
             </ScrollView>
         );
+    }
+
+    renderEmptyInbox() {
+        return (
+            <View
+                style={{
+                    backgroundColor: '#fafafa',
+                    flex: 1,
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}
+            >
+                <Text
+                    style={{
+                        width: 250,
+                        textAlign: 'center',
+                        fontSize: 17,
+                        color: '#8F8E94'
+                    }}
+                >There are no annotations to be found yet!</Text>
+            </View>
+        );
+    }
+
+    render() {
+        if (this.state.annotations.length > 0) {
+            return this.renderFilledInbox()
+        }
+        else {
+            return this.renderEmptyInbox()
+        }
     }
 }
 

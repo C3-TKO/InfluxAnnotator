@@ -9,7 +9,11 @@ import { TabBarIOS } from 'react-native';
 import WriterView from '../components/writer.ios.js';
 import DatabasesView from '../components/databases.ios.js';
 import AnnotationsView from '../components/annotations.ios.js';
+import ViewerView from '../components/viewer.js';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { HTTP_METHOD } from '../constants/httpMethod'
+
+import { Router, Scene } from 'react-native-router-flux';
 
 
 const TabBarItem = Icon.TabBarItemIOS;
@@ -63,7 +67,12 @@ class InfluxAnnotatorApp extends Component {
                             selectedTab: 'annotations'
                         });
                     }}>
-                    <AnnotationsView/>
+                    <Router>
+                        <Scene key="root">
+                            <Scene key="inbox" component={AnnotationsView} title="Inbox" initial={true} hideNavBar={true} />
+                            <Scene key="viewer" component={ViewerView} title="View Annotation" hideNavBar={false} />
+                        </Scene>
+                    </Router>
                 </TabBarItem>
             </TabBarIOS>
         );
