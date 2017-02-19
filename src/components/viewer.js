@@ -21,6 +21,7 @@ import {
 import RemovableInput from './panza-migrations/removableInput';
 import InputRow from './panza-migrations/inputRow';
 import { Actions, ActionConst } from 'react-native-router-flux';
+import { DEFAULT_LOCALE, DATE_TIME_LOCAL_OPTIONS } from '../constants/dateTimeLocalizationOptions'
 
 const GreenPlusIcon = () => (
     <Base
@@ -48,15 +49,6 @@ class ViewerView extends Component {
             time: new Date(props.annotation.time)
         };
     }
-
-    dateTimeLocalOptions = {
-        weekday: "short",
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit"
-    };
 
     deleteAnnotation = async() => {
         const database = this.props.databases.credentials[this.props.databases.selected];
@@ -118,7 +110,7 @@ class ViewerView extends Component {
                     <InputRow
                         style={{backgroundColor: '#ffffff'}}
                         label='Date'
-                        value={new Date(this.state.time).toLocaleDateString('en-US', this.dateTimeLocalOptions)}
+                        value={new Date(this.state.time).toLocaleDateString(DEFAULT_LOCALE, DATE_TIME_LOCAL_OPTIONS)}
                         editable={false}
                     />
                     <TextInput
