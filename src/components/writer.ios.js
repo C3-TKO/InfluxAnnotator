@@ -23,6 +23,7 @@ import {
 import RemovableInput from './panza-migrations/removableInput';
 import InputRow from './panza-migrations/inputRow';
 import InputToggle from './panza-migrations/inputToggle';
+import { DEFAULT_LOCALE, DATE_TIME_LOCAL_OPTIONS } from '../constants/dateTimeLocalizationOptions'
 
 const GreenPlusIcon = () => (
     <Base
@@ -59,15 +60,6 @@ class WriterView extends Component {
             focusPicker: this.props.focusPicker
         };
     }
-
-    dateTimeLocalOptions = {
-        weekday: "short",
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit"
-    };
 
     onPressButton = () => {
         const database = this.props.databases.credentials[this.props.databases.selected];
@@ -136,7 +128,7 @@ class WriterView extends Component {
                         onDateChange={(date) => {
                         this.setState({ date })
                     }}
-                        value={new Date(this.state.date).toLocaleDateString('en-US', this.dateTimeLocalOptions)}
+                        value={new Date(this.state.date).toLocaleDateString(DEFAULT_LOCALE, DATE_TIME_LOCAL_OPTIONS)}
                         date={this.state.date}
                         expanded={this.state.focusDate}
                         onToggleExpansion={() => {
