@@ -61,7 +61,7 @@ class WriterView extends Component {
         };
     }
 
-    onPressButton = () => {
+    onPressButton = async() => {
         const database = this.props.databases.credentials[this.props.databases.selected];
         let body = database.measurement + ' title="' + this.state.title + '",text="' + this.state.text + '"';
         if (this.state.tags.length > 0) {
@@ -70,13 +70,21 @@ class WriterView extends Component {
         if (!this.state.useNow) {
             body +=  ' ' + (this.state.date.getTime() * 1000000);
         }
-        fetch(
-            'http://' + database.url + ':' + database.port + '/write?db=' + database.name,
-            {
-                method: 'POST',
-                body: body
-            }
-        );
+        try {
+            const response = await fetch(
+                'http://' + database.url + ':' + database.port + '/write?db=' + database.name,
+                {
+                    method: 'POST',
+                    body: body
+                }
+            );
+            const json = await response.json();
+        }
+        catch(error) {
+            AlertIOS.alert(
+                error.message
+            );
+        }
     };
 
     onRemoveTag = (indexOfRemovedTag) => {
