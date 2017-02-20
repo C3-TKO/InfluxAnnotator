@@ -34,29 +34,28 @@ class AnnotationsView extends Component {
         }
     }
 
-    loadAnnotations = () => {
+    loadAnnotations = async() => {
         this.setState({isRefreshing: true});
         const database = this.props.databases.credentials[this.props.databases.selected];
-        return fetch(
-            'http://' + database.url + ':' + database.port + '/query?db=' + database.name + '&q=SELECT title, text, tags, time FROM ' + database.measurement + ' ORDER BY time DESC LIMIT 50',
-            {
-                method: 'GET'
-            }
-        )
-        .then((response) => response.json())
-        .then((responseJson) => {
+        try {
+            const response = await fetch(
+                'http://' + database.url + ':' + database.port + '/query?db=' + database.name + '&q=SELECT title, text, tags, time FROM ' + database.measurement + ' ORDER BY time DESC LIMIT 50',
+                {
+                    method: 'GET'
+                }
+            );
+            const json = await response.json();
             this.setState({
-                annotations: responseJson.results[0].series[0].values
-            })
+                annotations: json.results[0].series[0].values
+            });
             this.setState({isRefreshing: false});
-        })
-        .catch((error) => {
+        } catch(error) {
             AlertIOS.alert(
                 error.message,
                 'Database ' + this.props.databases.credentials[this.props.databases.selected].alias + ' is not reachable.'
             );
             this.setState({isRefreshing: false});
-        });
+        }
     };
 
     renderFilledInbox() {
