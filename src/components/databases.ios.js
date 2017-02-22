@@ -19,6 +19,7 @@ import {
     Button
 } from 'panza';
 import InputRow from './panza-migrations/inputRow';
+import { SHOW_ADD_DUMMY_DATA } from '../constants/showAddDummyData'
 
 class DatabasesView extends Component {
     static defaultProps = {
@@ -243,15 +244,19 @@ class DatabasesView extends Component {
     )
 
     addDummyDataButton = (
-        <Button
-            mt={1}
-            onPress={this.onPressAddDummyDataButton}
-        >
-            Add dummy data
-        </Button>
-    );
+        <Base mt={2} p={2}>
+            <ButtonGroup mt={2} vertical>
+                <Button
+                    mt={1}
+                    onPress={this.onPressAddDummyDataButton}
+                >
+                    Add dummy data
+                </Button>
+            </ButtonGroup>
+        </Base>
+    )
 
-    renderButtons = () => {
+    renderButtonGroup = () => {
         if(typeof this.props.databases.selected !== 'undefined') {
             return (
                 <Base mt={2} p={2}>
@@ -259,7 +264,6 @@ class DatabasesView extends Component {
                         {this.saveAsButton}
                         {this.editButton}
                         {this.deleteButton}
-                        {this.addDummyDataButton}
                     </ButtonGroup>
                 </Base>
             )
@@ -269,7 +273,6 @@ class DatabasesView extends Component {
             <Base mt={2} p={2}>
                 <ButtonGroup mt={2} vertical>
                     {this.saveAsButton}
-                    {this.addDummyDataButton}
                 </ButtonGroup>
             </Base>
         )
@@ -325,7 +328,8 @@ class DatabasesView extends Component {
                         onChangeText={(password) => this.setState({ password })} />
                 </InputGroup>
 
-                {this.renderButtons()}
+                {this.renderButtonGroup()}
+                {SHOW_ADD_DUMMY_DATA && this.addDummyDataButton}
             </ScrollView>
         );
     }
