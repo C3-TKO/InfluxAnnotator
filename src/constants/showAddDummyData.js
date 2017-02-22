@@ -1,3 +1,3 @@
-export const SHOW_ADD_DUMMY_DATA = (process.env.ENVIRONMENT === 'DEV')
+export const SHOW_ADD_DUMMY_DATA = (__DEV__)
     ? true
     : false;
