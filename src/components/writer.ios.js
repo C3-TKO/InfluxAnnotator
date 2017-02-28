@@ -95,6 +95,8 @@ class WriterView extends Component {
         this.setState({tags: this.state.tags.map((tag, index) => index === indexOfChangedTag ? changedTag : tag)});
     }
 
+    noop = () => {}
+
     render() {
         return (
             <ScrollView style={{backgroundColor: '#fafafa'}}>
@@ -156,8 +158,8 @@ class WriterView extends Component {
                             key={index}
                             removable
                             onRequestRemove={() => this.onRemoveTag(index)}
-                            onSelectLabel={noop}
-                            onPress={noop}
+                            onSelectLabel={this.noop}
+                            onPress={this.noop}
                             onChangeText={(text) => this.onChangeTag(text, index)}
                             value={tag}
                         />
