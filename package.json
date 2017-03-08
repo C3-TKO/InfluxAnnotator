@@ -1,31 +1,31 @@
 {
-	"name": "InfluxAnnotator",
+	"name": "Anflox",
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
 		"start": "node node_modules/react-native/local-cli/cli.js start",
 		"test": "jest",
 		"influx-setup": "docker run -d -p 8083:8083 -p 8086:8086 -e PRE_CREATE_DB=influx_annotator --expose 8090 --expose 8099 --name influxdb --volume=/Users/tomtom/var/influxdb:/data tutum/influxdb",
-    		"influx-run": "docker restart influxdb",
-    		"influx-stop": "docker stop influxdb",
-    		"influx-purge": "docker kill influxdb && docker rm influxdb && rm -rf /Users/tomtom/var/influxdb",
-    		"grafana-setup": "docker run -d -p 3000:3000 -e INFLUXDB_HOST=localhost -e INFLUXDB_PORT=8086 -e INFLUXDB_NAME=influx_annotator -e INFLUXDB_USER=root -e INFLUXDB_PASS=root --link influxdb:influxdb --name grafana grafana/grafana",
-    		"grafana-run": "docker restart grafana",
-    		"grafana-stop": "docker stop grafana",
-    		"grafana-purge": "docker kill grafana && docker rm grafana"
+                "influx-run": "docker restart influxdb",
+                "influx-stop": "docker stop influxdb",
+                "influx-purge": "docker kill influxdb && docker rm influxdb && rm -rf /Users/tomtom/var/influxdb",
+                "grafana-setup": "docker run -d -p 3000:3000 -e INFLUXDB_HOST=localhost -e INFLUXDB_PORT=8086 -e INFLUXDB_NAME=influx_annotator -e INFLUXDB_USER=root -e INFLUXDB_PASS=root --link influxdb:influxdb --name grafana grafana/grafana",
+                "grafana-run": "docker restart grafana",
+                "grafana-stop": "docker stop grafana",
+                "grafana-purge": "docker kill grafana && docker rm grafana"
 	},
 	"dependencies": {
-		"babel-preset-react-native-stage-0": "^1.0.1",
-    		"moment": "^2.17.1",
-    		"panza": "^3.0.0-beta1",
 		"react": "15.4.2",
 		"react-native": "0.42.0",
+		"babel-preset-react-native-stage-0": "^1.0.1",
+                "moment": "^2.17.1",
+                "panza": "^3.0.0-beta1",
 		"react-native-router-flux": "^3.37.0",
-    		"react-native-vector-icons": "^4.0.0",
-    		"react-redux": "^4.4.5",
-    		"redux": "^3.6.0",
-    		"redux-persist": "^3.5.0",
-    		"redux-thunk": "^2.1.0"
+                "react-native-vector-icons": "^4.0.0",
+                "react-redux": "^4.4.5",
+                "redux": "^3.6.0",
+                "redux-persist": "^3.5.0",
+                "redux-thunk": "^2.1.0"
 	},
 	"devDependencies": {
 		"babel-jest": "19.0.0",
