@@ -7,7 +7,8 @@ import {
     View,
     Text,
     TouchableHighlight,
-    RefreshControl
+    RefreshControl,
+    Dimensions
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
@@ -60,59 +61,43 @@ class AnnotationsView extends Component {
 
     renderFilledInbox() {
         return (
-            <ScrollView
-                style={{
-                    backgroundColor: '#fafafa',
-                    marginTop: 20
-                }}
-                refreshControl={
-                <RefreshControl
-                    refreshing={this.state.isRefreshing}
-                    onRefresh={this.loadAnnotations}
-                    tintColor="#000000"
-                    title="Loading..."
-                    titleColor="#000000"
-                    colors={['#ff0000', '#00ff00', '#0000ff']}
-                    progressBackgroundColor="#ffff00"
-                />}
-            >
-                {this.state.annotations.map((annotation, index) => {
-                    const goToAnnotationViewer = () => Actions.viewer(
-                        {
-                            annotation: {
-                                title: annotation[1],
-                                time: annotation[0],
-                                text: annotation[2],
-                                tags: annotation[3]
-                            },
-                            reloadAnnotations: this.loadAnnotations
-                        }
-                    );
-                    return (
-                        <InboxRow
-                            key={index}
-                            onPress={goToAnnotationViewer}
-                            title={annotation[1]}
-                            time={annotation[0]}
-                            text={annotation[2]}
-                            tags={annotation[3]}
-                            value={'test'}
-                        />
-                    )}
+            this.state.annotations.map((annotation, index) => {
+                const goToAnnotationViewer = () => Actions.viewer(
+                    {
+                        annotation: {
+                            title: annotation[1],
+                            time: annotation[0],
+                            text: annotation[2],
+                            tags: annotation[3]
+                        },
+                        reloadAnnotations: this.loadAnnotations
+                    }
+                );
+                return (
+                    <InboxRow
+                        key={index}
+                        onPress={goToAnnotationViewer}
+                        title={annotation[1]}
+                        time={annotation[0]}
+                        text={annotation[2]}
+                        tags={annotation[3]}
+                        value={'test'}
+                    />
                 )}
-            </ScrollView>
+            )
         );
     }
 
     renderEmptyInbox() {
+        const {height} = Dimensions.get('window');
         return (
             <View
                 style={{
-                    backgroundColor: '#fafafa',
                     flex: 1,
                     flexDirection: 'column',
                     justifyContent: 'center',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    marginTop: height / 2 - 80
                 }}
             >
                 <Text
@@ -128,12 +113,29 @@ class AnnotationsView extends Component {
     }
 
     render() {
-        if (this.state.annotations.length > 0) {
-            return this.renderFilledInbox()
-        }
-        else {
-            return this.renderEmptyInbox()
-        }
+        return (
+            <ScrollView
+                style={{
+                    marginTop: 20
+                }}
+                refreshControl={
+                <RefreshControl
+                    refreshing={this.state.isRefreshing}
+                    onRefresh={this.loadAnnotations}
+                    tintColor="#000000"
+                    title="Loading..."
+                    titleColor="#000000"
+                    colors={['#ff0000', '#00ff00', '#0000ff']}
+                    progressBackgroundColor="#ffff00"
+                />}
+            >
+                {this.state.annotations.length > 0
+                    ? this.renderFilledInbox()
+                    : this.renderEmptyInbox()
+                }
+            </ScrollView>
+        )
+
     }
 }
 
