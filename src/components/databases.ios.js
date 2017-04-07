@@ -302,7 +302,7 @@ class DatabasesView extends Component {
                     <InputRow
                         style={{backgroundColor: '#ffffff'}}
                         label='Port'
-                        placeholder='8083'
+                        placeholder='8086'
                         value={this.state.port}
                         onChangeText={(port) => this.setState({ port })} />
                     <InputRow
