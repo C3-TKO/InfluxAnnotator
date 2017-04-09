@@ -104,12 +104,25 @@ class DatabasesView extends Component {
         }
     }
 
+    getURLToAuthenticatedHost = () => {
+        let url = 'https://';
+
+        if (this.state.useCredentials) {
+            url += this.state.username + ':' + this.state.password + '@';
+        }
+
+        url +=  this.state.url + ':' + this.state.port;
+
+        return url
+    }
+
     checkDatabaseConnection = async () => {
         try {
-            const response = await fetch('http://' + this.state.url + ':' + this.state.port + '/query?db=' + this.state.name + '&q=SHOW%20MEASUREMENTS');
+            const response = await fetch(this.getURLToAuthenticatedHost() + '/query?q=SHOW%20DATABASES');
             const json = await response.json();
             return json;
         } catch(error) {
+            alert(test);
             throw new InfluxExceptions.HostNotFoundException(error);
         }
     }
