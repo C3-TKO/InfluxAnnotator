@@ -122,13 +122,24 @@ class DatabasesView extends Component {
             const json = await response.json();
             return json;
         } catch(error) {
-            alert(test);
             throw new InfluxExceptions.HostNotFoundException(error);
         }
     }
 
     checkDatabaseExistence(json) {
+        let databaseFound = false;
+        
         if (typeof json.results[0].series === 'undefined') {
+            throw new InfluxExceptions.DatabaseNotFoundException();
+        }
+
+        json.results[0].series[0].values.map(database => {
+            if(database[0] === this.state.name) {
+                databaseFound = true;
+            }
+        });
+
+        if (!databaseFound) {
             throw new InfluxExceptions.DatabaseNotFoundException();
         }
     }
