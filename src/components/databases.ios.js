@@ -178,13 +178,14 @@ class DatabasesView extends Component {
 
     writeDatabase = async (index) => {
         const database = this.getDatabaseFromState();
+        console.log('GOVNO');
 
         // Pre-write operation checks
         try {
             this.checkCredentialsCompleteness();
             this.checkAliasAlreadyExisting(index);
-            this.checkDatabaseExistence(this.getDatabaseListFromHost());
-            this.checkMeasurementExistence(this.getMeasurementListFromDatabase());
+            this.checkDatabaseExistence(await this.getDatabaseListFromHost());
+            this.checkMeasurementExistence(await this.getMeasurementListFromDatabase());
         }
         catch (e) {
             if (e instanceof InfluxExceptions.HostNotFoundException ||
