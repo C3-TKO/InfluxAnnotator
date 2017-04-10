@@ -178,7 +178,6 @@ class DatabasesView extends Component {
 
     writeDatabase = async (index) => {
         const database = this.getDatabaseFromState();
-        console.log('GOVNO');
 
         // Pre-write operation checks
         try {
