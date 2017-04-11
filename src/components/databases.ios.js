@@ -165,7 +165,7 @@ class DatabasesView extends Component {
 
         json.results[0].series[0].values.map(
             (measurement) => {
-                if (measurement === this.state.measurement) {
+                if (measurement[0] === this.state.measurement) {
                     measurementFound = true;
                 }
             }
