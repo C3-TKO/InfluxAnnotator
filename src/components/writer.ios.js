@@ -5,6 +5,7 @@ import {
     TextInput,
     ScrollView,
     Picker,
+    AlertIOS,
     TouchableInput
 } from 'react-native';
 import DatabasePicker from './databasePicker'
@@ -70,15 +71,29 @@ class WriterView extends Component {
         if (!this.state.useNow) {
             body +=  ' ' + (this.state.date.getTime() * 1000000);
         }
+
+        let url = 'https://';
+
+        if (database.username && database.password) {
+            url += database.username + ':' + database.password + '@';
+        }
+
+        url +=  database.url + ':' + database.port;
+
         try {
             const response = await fetch(
-                'http://' + database.url + ':' + database.port + '/write?db=' + database.name,
+                url + '/write?db=' + database.name,
                 {
                     method: 'POST',
                     body: body
                 }
             );
-            const json = await response.json();
+
+            if (response.status !== 204) {
+                AlertIOS.alert(
+                    'Annotation was not written to ' + database.alias
+                );
+            }
         }
         catch(error) {
             AlertIOS.alert(

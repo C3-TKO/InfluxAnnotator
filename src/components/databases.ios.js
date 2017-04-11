@@ -107,7 +107,7 @@ class DatabasesView extends Component {
     getURLToAuthenticatedHost = () => {
         let url = 'https://';
 
-        if (this.state.useCredentials) {
+        if (this.state.username && this.state.password) {
             url += this.state.username + ':' + this.state.password + '@';
         }
 
