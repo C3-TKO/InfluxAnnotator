@@ -39,8 +39,17 @@ class AnnotationsView extends Component {
         this.setState({isRefreshing: true});
         const database = this.props.databases.credentials[this.props.databases.selected];
         try {
+
+            let url = 'https://';
+
+            if (database.username && database.password) {
+                url += database.username + ':' + database.password + '@';
+            }
+
+            url +=  database.url + ':' + database.port;
+
             const response = await fetch(
-                'http://' + database.url + ':' + database.port + '/query?db=' + database.name + '&q=SELECT title, text, tags, time FROM ' + database.measurement + ' ORDER BY time DESC LIMIT 50',
+                url + '/query?db=' + database.name + '&q=SELECT title, text, tags, time FROM ' + database.measurement + ' ORDER BY time DESC LIMIT 50',
                 {
                     method: 'GET'
                 }

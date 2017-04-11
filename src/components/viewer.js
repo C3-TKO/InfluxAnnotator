@@ -54,8 +54,16 @@ class ViewerView extends Component {
         const database = this.props.databases.credentials[this.props.databases.selected];
         const query = "DELETE FROM " + database.measurement + " WHERE time = '" + this.props.annotation.time + "'";
 
+        let url = 'https://';
+
+        if (database.username && database.password) {
+            url += database.username + ':' + database.password + '@';
+        }
+
+        url +=  database.url + ':' + database.port;
+
         try {
-            const response = await fetch('http://' + database.url + ':' + database.port + '/query?db=' + database.name + '&q=' + query);
+            const response = await fetch(url + '/query?db=' + database.name + '&q=' + query);
             const json = await response.json();
             return json;
         } catch(error) {

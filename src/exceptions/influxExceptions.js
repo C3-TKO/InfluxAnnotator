@@ -10,16 +10,16 @@ export function DatabaseConfigurationIncompleteException(incompletePropertyName)
 }
 
 export function DatabaseNotFoundException() {
-    this.title = 'Database not found'
+    this.title = 'Database not found';
     this.message = 'Database was not found on host';
 }
 
 export function HostNotFoundException(error) {
-    this.title = 'Host not found'
+    this.title = 'Host not found';
     this.message = 'Can not connect to host - reason: ' + error.toString();
 }
 
 export function MeasurementNotFoundException() {
-    this.title = 'Measurement not found'
+    this.title = 'Measurement not found';
     this.message = 'The measurement might not contain any series yet and thus is not yet defined within the database';
 }

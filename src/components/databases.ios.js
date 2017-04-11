@@ -104,34 +104,76 @@ class DatabasesView extends Component {
         }
     }
 
-    checkDatabaseConnection = async () => {
+    getURLToAuthenticatedHost = () => {
+        let url = 'https://';
+
+        if (this.state.username && this.state.password) {
+            url += this.state.username + ':' + this.state.password + '@';
+        }
+
+        url +=  this.state.url + ':' + this.state.port;
+
+        return url
+    }
+
+    getDatabaseListFromHost = async() => {
         try {
-            const response = await fetch('http://' + this.state.url + ':' + this.state.port + '/query?db=' + this.state.name + '&q=SHOW%20MEASUREMENTS');
+            const response = await fetch(this.getURLToAuthenticatedHost() + '/query?q=SHOW%20DATABASES');
             const json = await response.json();
             return json;
         } catch(error) {
             throw new InfluxExceptions.HostNotFoundException(error);
         }
-    }
+    };
 
-    checkDatabaseExistence(json) {
+    getMeasurementListFromDatabase = async() => {
+        try {
+            const response = await fetch(this.getURLToAuthenticatedHost() + '/query?db=' + this.state.name + '&q=SHOW%20MEASUREMENTS');
+            const json = await response.json();
+            return json;
+        } catch(error) {
+            throw new InfluxExceptions.HostNotFoundException(error);
+        }
+    };
+
+    checkDatabaseExistence = (json) => {
+        let databaseFound = false;
+
         if (typeof json.results[0].series === 'undefined') {
+            throw new InfluxExceptions.DatabaseNotFoundException();
+        }
+
+        json.results[0].series[0].values.map(
+            database => {
+                if(database[0] === this.state.name) {
+                    databaseFound = true;
+                }
+            }
+        );
+
+        if (!databaseFound) {
             throw new InfluxExceptions.DatabaseNotFoundException();
         }
     }
 
-    checkMeasurementExistence(json) {
-        let measurementIsExisting = false;
-        json.results[0].series[0].values[0].map(
-            (measurement) => {
-                if (measurement === this.state.measurement) {
-                    measurementIsExisting = true
-                }
-            });
+    checkMeasurementExistence = (json) => {
+        let measurementFound = false;
 
-        if(!measurementIsExisting) {
+        if (typeof json.results[0].series === 'undefined') {
             throw new InfluxExceptions.MeasurementNotFoundException();
         }
+
+        json.results[0].series[0].values.map(
+            (measurement) => {
+                if (measurement[0] === this.state.measurement) {
+                    measurementFound = true;
+                }
+            }
+         );
+
+         if(!measurementFound) {
+            throw new InfluxExceptions.MeasurementNotFoundException();
+         }
     }
 
     writeDatabase = async (index) => {
@@ -141,9 +183,8 @@ class DatabasesView extends Component {
         try {
             this.checkCredentialsCompleteness();
             this.checkAliasAlreadyExisting(index);
-            const influxResult = await this.checkDatabaseConnection();
-            this.checkDatabaseExistence(influxResult);
-            this.checkMeasurementExistence(influxResult);
+            this.checkDatabaseExistence(await this.getDatabaseListFromHost());
+            this.checkMeasurementExistence(await this.getMeasurementListFromDatabase());
         }
         catch (e) {
             if (e instanceof InfluxExceptions.HostNotFoundException ||
@@ -302,7 +343,7 @@ class DatabasesView extends Component {
                     <InputRow
                         style={{backgroundColor: '#ffffff'}}
                         label='Port'
-                        placeholder='8083'
+                        placeholder='8086'
                         value={this.state.port}
                         onChangeText={(port) => this.setState({ port })} />
                     <InputRow
